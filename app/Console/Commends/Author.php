@@ -93,7 +93,7 @@ class Author extends Command
             $author->country_code           = $authorInfo['profile']['country_code'];
             $author->total_follow_users     = $authorInfo['profile']['total_follow_users'];
             $author->total_mypixiv_users    = $authorInfo['profile']['total_mypixiv_users'];
-            $author->background_image_url   = $bgImg['url'];
+            $author->background_image_url   = $bgImg;
             $author->p_background_image_url = $authorInfo['profile']['background_image_url'];
             $author->twitter_account        = $authorInfo['profile']['twitter_account'];
             $author->twitter_url            = $authorInfo['profile']['twitter_url'];

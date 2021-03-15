@@ -226,11 +226,13 @@ trait Common
             return false;
         }
 
-        return [
-            'width'     => $img->getWidth(),
-            'height'    => $img->getHeight(),
-            'url'       => $objectURL
-        ];
+        return $objectURL;
+
+//        return [
+//            'width'     => $img->getWidth(),
+//            'height'    => $img->getHeight(),
+//            'url'       => $objectURL
+//        ];
     }
 
     /**
