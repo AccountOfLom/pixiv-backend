@@ -85,7 +85,7 @@ class IllustrationController extends AdminController
                 return  '净网级别:<span style="color:'.$sanityColor.'">' . $this->sanity_level . "</span><br/>" .
                     '限制级?:&nbsp;&nbsp;<span style="color:'.$restrictColor.'">' . $restrictText . '</span>';
             });
-            $grid->column('page_count', '插画数')->width(20);
+            $grid->column('page_count', '插画数')->limit(6);
             $grid->column('author_collected', '作者信息已采集？')->display(function ($value) {
                 if ($value == '') {
                     return '-';
@@ -97,7 +97,7 @@ class IllustrationController extends AdminController
                     return "<span class='label bg-success'>是</span>";
                 }
                 return '-';
-            })->limit(10);;
+            });
             $grid->column('image_collected', '图片已采集？')->display(function ($value) {
                 if ($value == 0 || $value == '') {
                     return "<span class='label bg-warning' style='color:#FFF !important;'>否</span>";
@@ -106,7 +106,7 @@ class IllustrationController extends AdminController
                     return "<span class='label bg-success'>是</span>";
                 }
                 return '-';
-            })->limit(10);
+            });
             $grid->column('tag_ids', '标签')->display(function ($value) {
                 if ($value == "") {
                     return '-';
