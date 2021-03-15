@@ -37,6 +37,12 @@ class IllustrationController extends AdminController
             $grid->column('id')->sortable();
             $grid->column('pixiv_id', 'P站ID');
             $grid->column('author_pixiv_id' ,'作者PixivID');
+            $grid->column('原图宽高')->display(function () {
+                if ($this->width == '') {
+                    return '-';
+                }
+                return $this->width . " x " . $this->height;
+            })->limit(20);
             $grid->column( '缩略图')->display(function () {
                 if (!$this->image_collected) {
                     return '-';
@@ -44,12 +50,6 @@ class IllustrationController extends AdminController
                 $image = IllustImage::where(['illust_id' => $this->pixiv_id, 'is_collected' => 1])->first();
                 return '<img class="img img-thumbnail" data-action="preview-img" src="'. $image->square_medium_url .'" style="max-width:80px;max-height:80px;cursor:pointer" />';
             });
-            $grid->column('原图宽高')->display(function () {
-                if ($this->width == '') {
-                    return '-';
-                }
-                return $this->width . " x " . $this->height;
-            })->limit(20);
             $grid->column( '小图')->display(function () {
                 if (!$this->image_collected) {
                     return '-';
