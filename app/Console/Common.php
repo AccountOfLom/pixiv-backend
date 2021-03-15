@@ -269,7 +269,7 @@ trait Common
 
         //上传到云存储
         $S3 = new S3();
-        $objectURL = $S3->putObject($baseName, 'x-zip-compressed', $fullPath);
+        $objectURL = $S3->putObject($baseName, '', $fullPath);
         if (!$objectURL) {
             Log::error("文件上传至S3 失败, imgFullPath：" . $fullPath);
             return false;
