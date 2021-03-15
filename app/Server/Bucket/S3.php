@@ -53,17 +53,20 @@ class S3
     /**
      * 上传文件
      * @param $fileName
-     * @param $contentType
+     * @param string $contentType
      * @param $filePath
      * @return bool|mixed
      */
-    public function putObject($fileName, $contentType, $filePath) {
-        $result = $this->client->putObject(array(
+    public function putObject($fileName, $contentType = '', $filePath) {
+        $conf = [
             "Bucket" => $this->bucket,
             "Key" => $fileName,
-            "Body" => file_get_contents($filePath),
-            "ContentType" => $contentType,
-        ));
+            "Body" => file_get_contents($filePath)
+        ];
+        if ($contentType) {
+            $conf['ContentType'] = $contentType;
+        }
+        $result = $this->client->putObject($conf);
         if (!$result['ObjectURL']) {
             Log::error("文件上传至S3失败:" . json_encode($result));
             return false;
