@@ -41,15 +41,15 @@ class IllustrationController extends AdminController
                 if (!$this->image_collected) {
                     return '-';
                 }
-                $square_medium_url = IllustImage::where(['illust_id' => $this->pixiv_id, 'is_collected' => 1])->first();
-                return '<img class="img img-thumbnail" data-action="preview-img" src="'. $square_medium_url .'" style="max-width:80px;max-height:80px;cursor:pointer" />';
+                $image = IllustImage::where(['illust_id' => $this->pixiv_id, 'is_collected' => 1])->first();
+                return '<img class="img img-thumbnail" data-action="preview-img" src="'. $image->square_medium_url .'" style="max-width:80px;max-height:80px;cursor:pointer" />';
             });
             $grid->column( '小图')->display(function () {
                 if (!$this->image_collected) {
                     return '-';
                 }
-                $medium_url = IllustImage::where(['illust_id' => $this->pixiv_id, 'is_collected' => 1])->first();
-                return '<img class="img img-thumbnail" data-action="preview-img" src="'. $medium_url .'" style="max-width:200px;max-height:200px;cursor:pointer" />';
+                $image = IllustImage::where(['illust_id' => $this->pixiv_id, 'is_collected' => 1])->first();
+                return '<img class="img img-thumbnail" data-action="preview-img" src="'. $image->medium_url .'" style="max-width:200px;max-height:200px;cursor:pointer" />';
             });
             $grid->column('title', '标题')->limit(20);
             $grid->column('type', '类型')->display(function ($value) {
