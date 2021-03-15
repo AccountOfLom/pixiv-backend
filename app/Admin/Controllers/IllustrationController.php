@@ -98,15 +98,6 @@ class IllustrationController extends AdminController
                 }
                 return '-';
             });
-            $grid->column('image_collected', '图片已采集？')->display(function ($value) {
-                if ($value == 0 || $value == '') {
-                    return "<span class='label bg-warning' style='color:#FFF !important;'>否</span>";
-                }
-                if ($value == 1) {
-                    return "<span class='label bg-success'>是</span>";
-                }
-                return '-';
-            });
             $grid->column('tag_ids', '标签')->display(function ($value) {
                 if ($value == "") {
                     return '-';
