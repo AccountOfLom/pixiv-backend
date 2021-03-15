@@ -181,7 +181,7 @@ trait Common
             $image->p_large_url = $v['p_large_url'];
             $image->p_original_url = $v['p_original_url'] ?? '';
             $image->is_collected = $v['is_collected'];
-            $image->ugoira_zip_url = $v['ugoira_zip_url'] ?? '';
+            $image->p_ugoira_zip_url = $v['ugoira_zip_url'] ?? '';
             $image->ugoira_frame = $v['ugoira_frame'] ?? '';
             $image->save();
         }
