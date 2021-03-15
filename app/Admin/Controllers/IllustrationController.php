@@ -42,7 +42,7 @@ class IllustrationController extends AdminController
                     return '-';
                 }
                 return $this->width . " x " . $this->height;
-            })->limit(20)->width(40);
+            })->limit(20);
             $grid->column( '缩略图')->display(function () {
                 if (!$this->image_collected) {
                     return '-';
@@ -97,7 +97,7 @@ class IllustrationController extends AdminController
                     return "<span class='label bg-success'>是</span>";
                 }
                 return '-';
-            })->width(20);;
+            })->limit(10);;
             $grid->column('image_collected', '图片已采集？')->display(function ($value) {
                 if ($value == 0 || $value == '') {
                     return "<span class='label bg-warning' style='color:#FFF !important;'>否</span>";
@@ -106,7 +106,7 @@ class IllustrationController extends AdminController
                     return "<span class='label bg-success'>是</span>";
                 }
                 return '-';
-            })->width(20);
+            })->limit(10);
             $grid->column('tag_ids', '标签')->display(function ($value) {
                 if ($value == "") {
                     return '-';
@@ -118,7 +118,7 @@ class IllustrationController extends AdminController
                     $tagNames .= '[' . $tag->name . ', ' . $tag->translated_name . '], ';
                 }
                 return $tagNames;
-            })->limit(10);
+            })->limit(15);
             $grid->column('create_date', '发布日期')->display(function ($value) {
                 if ($value == "") {
                     return "-";
