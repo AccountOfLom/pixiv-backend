@@ -64,7 +64,7 @@ class IllustsImage extends Command
             return false;
         }
 
-        $illusts = (new Illustration())->where('pixiv_id', $images->pixiv_id)->first();
+        $illusts = (new Illustration())->where('pixiv_id', $images->illust_id)->first();
 
         $squareMediumURL = $this->imgDownloadAndUploadAndDel($images->p_square_medium_url);
         if (!$squareMediumURL) {

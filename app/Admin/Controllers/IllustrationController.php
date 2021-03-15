@@ -11,7 +11,6 @@ use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Layout\Content;
 use Illuminate\Support\Facades\Cache;
-use Predis\Client;
 
 class IllustrationController extends AdminController
 {
