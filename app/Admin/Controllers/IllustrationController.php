@@ -44,6 +44,12 @@ class IllustrationController extends AdminController
                 $image = IllustImage::where(['illust_id' => $this->pixiv_id, 'is_collected' => 1])->first();
                 return '<img class="img img-thumbnail" data-action="preview-img" src="'. $image->square_medium_url .'" style="max-width:80px;max-height:80px;cursor:pointer" />';
             });
+            $grid->column('原图宽高')->display(function () {
+                if ($this->width == '') {
+                    return '-';
+                }
+                return $this->width . " x " . $this->height;
+            })->limit(20);
             $grid->column( '小图')->display(function () {
                 if (!$this->image_collected) {
                     return '-';
@@ -79,12 +85,6 @@ class IllustrationController extends AdminController
                 return  '净网级别:<span style="color:'.$sanityColor.'">' . $this->sanity_level . "</span><br/>" .
                     '限制级?:&nbsp;&nbsp;<span style="color:'.$restrictColor.'">' . $restrictText . '</span>';
             });
-            $grid->column('原图宽高')->display(function () {
-                if ($this->width == '') {
-                    return '-';
-                }
-                return $this->width . " x " . $this->height;
-            })->limit(20);
             $grid->column('page_count', '插画数');
             $grid->column('author_collected', '作者信息已采集？')->display(function ($value) {
                 if ($value == '') {
@@ -130,6 +130,8 @@ class IllustrationController extends AdminController
                     '收藏: <span style="color:#586cb1">' . $this->total_bookmarks . '</span>';
             });
             $grid->column('created_at');
+
+            $grid->fixColumns(2);
 
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
