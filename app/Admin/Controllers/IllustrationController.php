@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Repositories\Illustration;
 use App\Admin\Repositories\SystemConfig;
 use App\Admin\Repositories\Tag;
+use App\Models\IllustImage;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -36,8 +37,20 @@ class IllustrationController extends AdminController
             $grid->column('id')->sortable();
             $grid->column('pixiv_id', 'P站ID');
             $grid->column('author_pixiv_id' ,'作者PixivID');
-            $grid->column('square_medium', '缩略图')->image()->width(40);
-            $grid->column('medium', '小图')->width(80);
+            $grid->column( '缩略图')->display(function () {
+                if (!$this->image_collected) {
+                    return '-';
+                }
+                $square_medium_url = IllustImage::where(['illust_id' => $this-pixiv_id, 'is_collected' => 1])->first();
+                return '<img class="img img-thumbnail" data-action="preview-img" src="'. $square_medium_url .'" style="max-width:200px;max-height:200px;cursor:pointer" />';
+            });
+            $grid->column( '小图')->display(function () {
+                if (!$this->image_collected) {
+                    return '-';
+                }
+                $medium_url = IllustImage::where(['illust_id' => $this-pixiv_id, 'is_collected' => 1])->first();
+                return '<img class="img img-thumbnail" data-action="preview-img" src="'. $medium_url .'" style="max-width:200px;max-height:200px;cursor:pointer" />';
+            });
             $grid->column('title', '标题')->limit(20);
             $grid->column('type', '类型')->display(function ($value) {
                 if ($value == Illustration::TYPE_ILLUST) {
