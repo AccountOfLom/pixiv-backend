@@ -66,40 +66,52 @@ class IllustsImage extends Command
 
         $illusts = (new Illustration())->where('pixiv_id', $images->illust_id)->first();
 
-        $squareMediumURL = $this->imgDownloadAndUploadAndDel($images->p_square_medium_url);
-        if (!$squareMediumURL) {
-            Log::error("图片保存失败 ,p_square_medium_url:" . $images->p_square_medium_url);
-            $images->is_collected = 2;
-            $images->save();
-            return false;
+        if (!$images->square_medium_url) {
+            $squareMediumURL = $this->imgDownloadAndUploadAndDel($images->p_square_medium_url);
+            if (!$squareMediumURL) {
+                Log::error("图片保存失败 ,p_square_medium_url:" . $images->p_square_medium_url);
+                $images->is_collected = 2;
+                $images->save();
+                return false;
+            }
+            $images->square_medium_url = $squareMediumURL;
         }
 
-        $mediumURL = $this->imgDownloadAndUploadAndDel($images->p_medium_url);
-        if (!$mediumURL) {
-            Log::error("图片保存失败 ,p_medium_url:" . $images->p_medium_url);
-            $images->is_collected = 2;
-            $images->save();
-            return false;
+        if (!$images->medium_url) {
+            $mediumURL = $this->imgDownloadAndUploadAndDel($images->p_medium_url);
+            if (!$mediumURL) {
+                Log::error("图片保存失败 ,p_medium_url:" . $images->p_medium_url);
+                $images->is_collected = 2;
+                $images->save();
+                return false;
+            }
+            $images->medium_url = $mediumURL;
         }
 
-        $largeURL = $this->imgDownloadAndUploadAndDel($images->p_large_url);
-        if (!$largeURL) {
-            Log::error("图片保存失败 ,p_large_url:" . $images->p_large_url);
-            $images->is_collected = 2;
-            $images->save();
-            return false;
+        if (!$images->large_url) {
+            $largeURL = $this->imgDownloadAndUploadAndDel($images->p_large_url);
+            if (!$largeURL) {
+                Log::error("图片保存失败 ,p_large_url:" . $images->p_large_url);
+                $images->is_collected = 2;
+                $images->save();
+                return false;
+            }
+            $images->large_url = $largeURL;
         }
 
-        $originalURL = $this->imgDownloadAndUploadAndDel($images->p_original_url);
-        if (!$originalURL) {
-            Log::error("图片保存失败 ,p_original_url:" . $images->p_original_url);
-            $images->is_collected = 2;
-            $images->save();
-            return false;
+        if (!$images->original_url) {
+            $originalURL = $this->imgDownloadAndUploadAndDel($images->p_original_url);
+            if (!$originalURL) {
+                Log::error("图片保存失败 ,p_original_url:" . $images->p_original_url);
+                $images->is_collected = 2;
+                $images->save();
+                return false;
+            }
+            $images->original_url = $originalURL;
         }
 
         //动画
-        if ($illusts->type == \App\Admin\Repositories\Illustration::TYPE_UGOIRA) {
+        if ($illusts->type == \App\Admin\Repositories\Illustration::TYPE_UGOIRA && !$images->ugoira_zip_url) {
             $zipURL = $this->imgDownloadAndUploadAndDel($images->p_ugoira_zip_url);
             if (!$zipURL) {
                 Log::error("zip保存失败 ,p_original_url:" . $images->p_ugoira_zip_url);
@@ -110,10 +122,6 @@ class IllustsImage extends Command
             $images->ugoira_zip_url = $zipURL;
         }
 
-        $images->square_medium_url = $squareMediumURL;
-        $images->medium_url = $mediumURL;
-        $images->large_url = $largeURL;
-        $images->original_url = $originalURL;
         $images->is_collected = 1;
         $images->collected_date = date('Y-m-d', time());
         $images->save();
