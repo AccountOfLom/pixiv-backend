@@ -99,16 +99,16 @@ class IllustsImage extends Command
         }
 
         //动画
-        if ($illusts->type == \App\Admin\Repositories\Illustration::TYPE_UGOIRA) {
-            $zipURL = $this->imgDownloadAndUploadAndDel($images->p_ugoira_zip_url);
-            if (!$zipURL) {
-                Log::error("zip保存失败 ,p_original_url:" . $images->p_ugoira_zip_url);
-                $images->is_collected = 2;
-                $images->save();
-                return false;
-            }
-            $images->ugoira_zip_url = $zipURL;
-        }
+//        if ($illusts->type == \App\Admin\Repositories\Illustration::TYPE_UGOIRA) {
+//            $zipURL = $this->imgDownloadAndUploadAndDel($images->p_ugoira_zip_url);
+//            if (!$zipURL) {
+//                Log::error("zip保存失败 ,p_original_url:" . $images->p_ugoira_zip_url);
+//                $images->is_collected = 2;
+//                $images->save();
+//                return false;
+//            }
+//            $images->ugoira_zip_url = $zipURL;
+//        }
 
         $images->square_medium_url = $squareMediumURL;
         $images->medium_url = $mediumURL;
