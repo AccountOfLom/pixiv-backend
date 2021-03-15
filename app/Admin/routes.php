@@ -20,6 +20,12 @@ Route::group([
     //作者
     $router->resource('author', 'AuthorController');
 
+    //插画
+    $router->resource('illustration', 'IllustrationController');
+
+    //标签
+    $router->resource('tag', 'TagController');
+
 });
 
 

@@ -15,7 +15,7 @@ class SystemConfigController extends AdminController
     public function index(Content $content)
     {
         return $content
-            ->header('系统设置')
+            ->header('设置')
             ->body($this->grid());
     }
 
@@ -72,7 +72,6 @@ class SystemConfigController extends AdminController
             $form->text('key');
             $form->text('value');
             $form->text('remarks', '设置项名称');
-        
             $form->display('created_at');
             $form->display('updated_at');
         });

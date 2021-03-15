@@ -46,7 +46,32 @@ class Pixiv
     public function userDetail($pixivID) {
         $response = $this->httpClient->request('GET', $this->domain . '/user_detail?user_id=' . $pixivID);
         return $this->formatResponse($response);
+    }
 
+
+    /**
+     * 作者作品列表
+     * @param $pixivID
+     * @return bool|mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Throwable
+     */
+    public function userIllusts($pixivID) {
+        $response = $this->httpClient->request('GET', $this->domain . '/user_illusts?user_id=' . $pixivID);
+        return $this->formatResponse($response);
+    }
+
+
+    /**
+     * 动画zip
+     * @param $illustsID
+     * @return bool|mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Throwable
+     */
+    public function ugoiraMetadata($illustsID) {
+        $response = $this->httpClient->request('GET', $this->domain . '/ugoira_metadata?illust_id=' . $illustsID);
+        return $this->formatResponse($response);
     }
 
 
@@ -63,15 +88,14 @@ class Pixiv
     }
 
     /**
-     * 获取图片名
+     * 获取文件名
      * @param $imageURL
      * @return mixed
      */
-    public function getImageBaseName($imageURL) {
+    public function getFileBaseName($imageURL) {
         $info = explode('/', $imageURL);
         return $info[count($info)-1];
     }
-
 
 
     /**

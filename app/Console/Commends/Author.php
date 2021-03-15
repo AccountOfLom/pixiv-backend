@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * 作者信息
- * Class SeekQuestions
+ * Class Author
  * @package App\Console\Commends
  */
 class Author extends Command
@@ -45,7 +45,7 @@ class Author extends Command
     public function handle()
     {
         //作者信息采集开关
-        $switch = SystemConfig::getConfig(SystemConfig::P_SWITCH_AUTHOR);
+        $switch = SystemConfig::getConfig(SystemConfig::P_AUTHOR_SWITCH);
         if (!$switch || $switch != SystemConfig::ENABLE) {
             return false;
         }
@@ -99,6 +99,7 @@ class Author extends Command
             $author->twitter_url            = $authorInfo['profile']['twitter_url'];
             $author->is_collected           = \App\Admin\Repositories\Author::COLLECTED;
             $author->collected_date         = date("Y-m-d", time());
+            $author->is_collected_illust    = 0;
             $author->save();
         } catch (\Exception $e) {
             Log::error("作者信息更新失败,line:" . $e->getLine() . '; Message:' . $e->getMessage());

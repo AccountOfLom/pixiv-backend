@@ -4,6 +4,8 @@ namespace App\Console;
 
 use App\Admin\Repositories\SystemConfig;
 use App\Console\Commends\Author;
+use App\Console\Commends\AuthorIllusts;
+use App\Console\Commends\IllustsImage;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,7 +17,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'author'    => Author::class,
+        'author'            => Author::class,
+        'author-illusts'    => AuthorIllusts::class,
+        'illusts-image'     => IllustsImage::class,
     ];
 
 
@@ -30,6 +34,10 @@ class Kernel extends ConsoleKernel
         if ($PSwitch == SystemConfig::ENABLE) {
             //采集作者信息
             $schedule->command('author')->everyMinute();
+            //采集作者作品
+            $schedule->command('author-illusts')->everyMinute();
+            //下载作品图片
+            $schedule->command('illusts-image')->everyMinute();
         }
 
     }

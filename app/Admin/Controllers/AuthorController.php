@@ -30,7 +30,12 @@ class AuthorController extends AdminController
         return Grid::make(new Author(), function (Grid $grid) {
             $grid->model()->orderBy('id', 'desc');
             $grid->column('id')->sortable();
-            $grid->column('profile_image_url');
+            $grid->column('profile_image_url')->display(function ($value) {
+                if ($value) {
+                    return "<img class='round' data-action='preview-img' width='40' height='40' src='".$value."' />";
+                }
+                return "";
+            });
             $grid->column('pixiv_id');
             $grid->column('name');
             $grid->column('account');
@@ -47,9 +52,11 @@ class AuthorController extends AdminController
                 if ($value == 1) {
                     return "<span class='label bg-primary'>已采集</span>";
                 }
+                if ($value == 2) {
+                    return "<span class='label bg-primary'>采集失败</span>";
+                }
                 return "<code style='color:#4c60a3'>未采集</code>";
             });
-            $grid->column('background_image_url');
             $grid->column('collected_illust_date')->display(function ($value) {
                 if ($value) {
                     return $value;
@@ -58,13 +65,12 @@ class AuthorController extends AdminController
             });
             $grid->column('collected_date');
             $grid->column('created_at');
-            $grid->column('updated_at')->sortable();
+            $grid->column('updated_at');
 
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->panel();
-                $filter->equal('pixiv_id')->width(3);
-                $filter->equal('is_collected_illust', '作品采集')->select([0 => '未采集', 1 => '已采集'])->width(3);
-                $filter->equal('is_add_manully', '来源')->select([0 => '关联采集', 1 => '手动添加'])->width(3);
+                $filter->equal('pixiv_id');
+                $filter->equal('is_collected_illust', '作品采集')->select([0 => '未采集', 1 => '已采集', 2 => '采集失败']);
+                $filter->equal('is_add_manully', '来源')->select([0 => '关联采集', 1 => '手动添加']);
             });
         });
     }
