@@ -34,7 +34,7 @@ class IllustrationController extends AdminController
     {
         return Grid::make(new Illustration(), function (Grid $grid) {
             $grid->model()->orderBy('id', 'desc');
-            $grid->column('id')->sortable();
+            $grid->column('id')->width(20)->sortable();
             $grid->column('pixiv_id', 'P站ID');
             $grid->column('author_pixiv_id' ,'作者PixivID');
             $grid->column('原图宽高')->display(function () {
@@ -130,8 +130,6 @@ class IllustrationController extends AdminController
                     '收藏: <span style="color:#586cb1">' . $this->total_bookmarks . '</span>';
             });
             $grid->column('created_at');
-
-            $grid->fixColumns(2);
 
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
