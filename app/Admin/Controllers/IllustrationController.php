@@ -83,7 +83,7 @@ class IllustrationController extends AdminController
                     $restrictText = 'R18';
                 }
                 return  '净网级别:<span style="color:'.$sanityColor.'">' . $this->sanity_level . "</span><br/>" .
-                    '限制级?:&nbsp;&nbsp;<span style="color:'.$restrictColor.'">' . $restrictText . '</span>';
+                    '限制级?:<span style="color:'.$restrictColor.'">' . $restrictText . '</span>';
             });
             $grid->column('page_count', '插画数')->limit(6);
             $grid->column('author_collected', '作者信息已采集？')->display(function ($value) {
