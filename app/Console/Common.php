@@ -27,19 +27,16 @@ trait Common
         $interval = SystemConfig::getConfig($intervalKey);
         if ($interval === null) {
             Log::error("采集频率获取失败,key:" . $intervalKey);
-            echo 'a';
             return false;
         }
 
         $preTime = Cache::get($intervalTimeKey);
         if ($preTime && $preTime > time() - $interval * 60) {
-            echo 'b';
             return false;   //未到下一次采集时间
         }
 
         $cacheRes = Cache::put($intervalTimeKey, time());
         if (!$cacheRes) {
-            echo 'c';
             Log::error("采集时间缓存失败，key:" . $intervalTimeKey);
             return false;
         }
@@ -70,6 +67,7 @@ trait Common
         $illusts->title = $data['title'];
         $illusts->type = $data['type'];
         $illusts->caption = $data['caption'];
+         
         $illusts->x_restrict = $data['x_restrict'];
         $illusts->sanity_level = $data['sanity_level'];
         $illusts->width = $data['width'];
