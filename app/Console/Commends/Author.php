@@ -103,7 +103,9 @@ class Author extends Command
             $author->twitter_url            = $authorInfo['profile']['twitter_url'];
             $author->is_collected           = \App\Admin\Repositories\Author::COLLECTED;
             $author->collected_date         = date("Y-m-d", time());
-            $author->is_collected_illust    = 0;
+            if (!$author->is_collected_illust) {
+                $author->is_collected_illust    = 0;
+            }
             $author->save();
         } catch (\Exception $e) {
             Log::error("作者信息更新失败,line:" . $e->getLine() . '; Message:' . $e->getMessage());
