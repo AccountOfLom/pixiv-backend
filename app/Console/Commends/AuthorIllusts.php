@@ -60,7 +60,6 @@ class AuthorIllusts extends Command
 
         $author = (new AuthorModel())->where("is_collected_illust", 0)->orderBy("is_priority_collect", "desc")->first();
         if (!$author) {
-            echo 2;
             return false;
         }
 

@@ -71,7 +71,7 @@ class Author extends Command
         $profileImg = $this->imgDownloadAndUploadAndDel($profileURL);
         if (!$profileImg) {
             Log::error("作者头像保存失败 ,profile_image_url:" . $profileURL);
-            $author->is_collected_illust = 2;
+            $author->is_collected = 2;
             $author->save();
             return false;
         }
@@ -81,7 +81,7 @@ class Author extends Command
         $bgImg = $this->imgDownloadAndUploadAndDel($bgImgURL);
         if (!$bgImg) {
             Log::error("作者主页背景图保存失败 ,background_image_url:" . $bgImgURL);
-            $author->is_collected_illust = 2;
+            $author->is_collected = 2;
             $author->save();
             return false;
         }
@@ -107,6 +107,8 @@ class Author extends Command
             $author->save();
         } catch (\Exception $e) {
             Log::error("作者信息更新失败,line:" . $e->getLine() . '; Message:' . $e->getMessage());
+            $author->is_collected = 2;
+            $author->save();
             return false;
         }
 

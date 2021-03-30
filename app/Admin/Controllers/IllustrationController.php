@@ -106,6 +106,9 @@ class IllustrationController extends AdminController
                 $tagNames = "";
                 foreach ($tagIDs as $k => $v) {
                     $tag = (new Tag())->getTagByID($v);
+                    if (!$tag) {
+                        continue;
+                    }
                     $tagNames .= '[' . $tag->name . ', ' . $tag->translated_name . '], ';
                 }
                 return $tagNames;

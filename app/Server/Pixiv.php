@@ -114,7 +114,6 @@ class Pixiv
         }
 
         $content = $response->getBody()->getContents();
-        Log::Info("采集数据 content：" . $content);
 
         //图片下载返回数据
         if ($content == 'true' || $content == 'false') {
