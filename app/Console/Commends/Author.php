@@ -89,7 +89,7 @@ class Author extends Command
         try {
             $author->name                   = $authorInfo['user']['name'];
             $author->account                = $authorInfo['user']['account'];
-            $author->profile_image_url      = $profileImg['url'];
+            $author->profile_image_url      = $profileImg;
             $author->p_profile_image_url    = $authorInfo['user']['profile_image_urls']['medium'];
             $author->comment                = $authorInfo['user']['comment'];
             $author->webpage                = $authorInfo['profile']['webpage'];
