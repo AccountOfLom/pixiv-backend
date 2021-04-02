@@ -122,7 +122,7 @@ class IllustsImage extends Command
         }
 
         $images->is_collected = 1;
-        $images->collected_date = date('Y-m-d', time());
+        $images->collected_at = date('Y-m-d H:i:s', time());
         $images->save();
 
         $illusts->image_collected = 1;

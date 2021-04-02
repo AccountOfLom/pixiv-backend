@@ -69,9 +69,11 @@ class AuthorController extends AdminController
             $grid->column('updated_at');
 
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('pixiv_id');
-                $filter->equal('is_collected_illust', '作品采集')->select([0 => '未采集', 1 => '已采集', 2 => '采集失败']);
-                $filter->equal('is_add_manully', '来源')->select([0 => '关联采集', 1 => '手动添加']);
+                $filter->panel();
+                $filter->equal('pixiv_id')->width(4);
+                $filter->equal('is_collected_illust', '作品采集')->select([0 => '未采集', 1 => '已采集', 2 => '采集失败'])->width(4);
+                $filter->equal('is_add_manully', '来源')->select([0 => '关联采集', 1 => '手动添加'])->width(4);
+                $filter->between('created_at', '采集时间')->datetime()->width(4);
             });
         });
     }

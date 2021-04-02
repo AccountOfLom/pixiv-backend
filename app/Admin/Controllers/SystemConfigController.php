@@ -35,8 +35,8 @@ class SystemConfigController extends AdminController
             $grid->column('updated_at')->sortable();
         
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-                $filter->like('remarks', '设置项');
+                $filter->panel();
+                $filter->like('remarks', '设置项')->placeholder("输入关键字")->width(4);
             });
         });
     }

@@ -31,9 +31,21 @@ class TagController extends AdminController
             $grid->model()->orderBy('id', 'desc');
             $grid->column('id')->sortable();
             $grid->column('name', '标签名');
-            $grid->column('translated_name', '标签名翻译');
-            $grid->column('collected_date', '采集日期');
-            $grid->column('is_collected', '标签下作品已采集？');
+            $grid->column('translated_name', '标签名翻译')->display(function ($value) {
+                return $value ?? "-";
+            });
+            $grid->column('collected_date', '采集日期')->display(function ($value) {
+                return $value ?: "-";
+            });
+            $grid->column('is_collected')->display(function ($value) {
+                if ($value == 1) {
+                    return "<span class='label bg-primary'>已采集</span>";
+                }
+                if ($value == 2) {
+                    return "<span class='label bg-primary'>采集失败</span>";
+                }
+                return "<code style='color:#4c60a3'>未采集</code>";
+            });
             $grid->column('updated_at');
             $grid->column('created_at');
         

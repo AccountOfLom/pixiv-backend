@@ -13,6 +13,7 @@ use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Layout\Content;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class IllustrationController extends AdminController
 {
@@ -104,7 +105,7 @@ class IllustrationController extends AdminController
                     if (!$tag) {
                         continue;
                     }
-                    $tagNames .= '[' . $tag->name . ', ' . $tag->translated_name . '], ';
+                    $tagNames .= '[' . $tag->name . ', ' . $tag->translated_name . '(' . $tag->id .')], ';
                 }
                 return $tagNames;
             })->limit(15);
@@ -121,15 +122,19 @@ class IllustrationController extends AdminController
             $grid->column('created_at');
 
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-                $filter->equal('pixiv_id', 'P站ID');
-                $filter->like('title', '标题');
-                $filter->equal('author_pixiv_id', '作者P站ID');
-                $filter->equal('type', '作品类型')->select(['illust' => '插画', 'ugoira' => '动画']);
-                $filter->equal('x_restrict', '限制级')->select([0 => '否', 1 => '是']);
-                $filter->equal('sanity_level', '净网级别');
-                $filter->equal('author_collected', '作者信息已采集')->select([0 => '否', 1 => '是', 2 => '采集失败']);
-                $filter->equal('image_collected', '图片已采集')->select([0 => '否', 1 => '是', 2 => '采集失败']);
+                $filter->panel();
+                $filter->equal('pixiv_id', 'P站ID')->width(3);
+                $filter->equal('author_pixiv_id', '作者P站ID')->width(3);
+                $filter->like('title', '标题')->width(3);
+                $filter->equal('type', '作品类型')->select(['illust' => '插画', 'ugoira' => '动画'])->width(3);
+                $filter->equal('x_restrict', '限制级')->select([0 => '否', 1 => '是'])->width(3);
+                $filter->equal('sanity_level', '净网级别')->width(3);
+                $filter->equal('author_collected', '作者信息已采集')->select([0 => '否', 1 => '是', 2 => '采集失败'])->width(3);
+                $filter->equal('image_collected', '图片已采集')->select([0 => '否', 1 => '是', 2 => '采集失败'])->width(3);
+                $filter->between('created_at', '采集时间')->datetime()->width(3);
+                $filter->where('search', function ($query) {
+                    $query->whereRaw(DB::raw("FIND_IN_SET({$this->input}, tag_ids)"));
+                }, '标签ID')->width(3);
             });
         });
     }
