@@ -58,7 +58,8 @@ class IllustsImage extends Command
             return false;
         }
 
-        $images = (new IllustImage())->where("is_collected", 0)->first();
+        //动画作品暂不下载
+        $images = (new IllustImage())->where("is_collected", 0)->where('p_ugoira_zip_url', '<>', '')->first();
         if (!$images) {
             return false;
         }
@@ -109,7 +110,7 @@ class IllustsImage extends Command
             $images->original_url = $originalURL;
         }
 
-        //动画
+        //TODO 上传动画zip文件到S3
         if ($illusts->type == \App\Admin\Repositories\Illustration::TYPE_UGOIRA && !$images->ugoira_zip_url) {
             $zipURL = $this->imgDownloadAndUploadAndDel($images->p_ugoira_zip_url);
             if (!$zipURL) {
