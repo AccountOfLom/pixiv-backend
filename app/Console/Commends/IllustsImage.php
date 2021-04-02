@@ -59,7 +59,7 @@ class IllustsImage extends Command
         }
 
         //动画作品暂不下载
-        $images = (new IllustImage())->where("is_collected", 0)->where('p_ugoira_zip_url', '<>', '')->first();
+        $images = (new IllustImage())->where("is_collected", 0)->where('p_ugoira_zip_url', '')->first();
         if (!$images) {
             return false;
         }
