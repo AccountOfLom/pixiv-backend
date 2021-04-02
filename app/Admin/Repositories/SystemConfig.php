@@ -43,6 +43,8 @@ class SystemConfig extends EloquentRepository
     const DOWNLOAD_ILLUSTS_IMAGE_SWITCH = 'download_illusts_image_switch';
     //代理地址
     const PROXY_URL = 'proxy_url';
+    //作品采集基准（收藏数>=?）
+    const ILLUSTS_SAVE_CONDITION = 'illusts_save_condition';
     //相关作品采集基准（收藏数>=?）
     const ILLUSTS_RELATED_CONDITION = 'illusts_related_condition';
 

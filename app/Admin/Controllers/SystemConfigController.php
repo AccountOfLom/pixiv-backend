@@ -36,7 +36,7 @@ class SystemConfigController extends AdminController
         
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-                $filter->like('remarks');
+                $filter->like('remarks', '设置项');
             });
         });
     }

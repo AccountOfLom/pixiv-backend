@@ -101,14 +101,19 @@ class AuthorIllusts extends Command
         }
 
         foreach ($data['illusts'] as $k => $v) {
+            if ($data['total_bookmarks'] < SystemConfig::getConfig(SystemConfig::ILLUSTS_SAVE_CONDITION)) {
+                continue;
+            }
             if (!$this->saveIllusts($v, 1)) {
                 Log::error("作者的作品保存失败 , pixiv_id:" . $authorID, '; data:' . json_encode($v));
                 return false;
             }
         }
+
         if (!$data['next_url']) {
             return true;
         }
+
         $this->getUserIllusts($authorID, $data['next_url']);
         return true;
     }
