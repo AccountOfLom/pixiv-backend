@@ -77,13 +77,18 @@ class S3
     /**
      * 删除文件
      * @param $fileName
+     * @return bool
      */
     public function deletedObject($fileName)
     {
+        if (!$fileName) {
+            return false;
+        }
         $this->client->deleteObject(array(
             "Bucket" => $this->bucket,
             "Key" => $fileName
         ));
+        return true;
     }
 
 
