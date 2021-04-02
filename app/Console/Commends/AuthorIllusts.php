@@ -39,6 +39,7 @@ class AuthorIllusts extends Command
 
     function __construct()
     {
+        parent::__construct();
         $this->pixiv = new Pixiv();
     }
 
