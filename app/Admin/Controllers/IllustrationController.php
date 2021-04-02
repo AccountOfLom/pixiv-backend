@@ -109,6 +109,13 @@ class IllustrationController extends AdminController
                 }
                 return $tagNames;
             })->limit(15);
+            $grid->column( '图片采集时间')->display(function () {
+                $image = IllustImage::where(['illust_id' => $this->pixiv_id, 'is_collected' => 1])->orderBy('id', 'desc')->first();
+                if (!$image) {
+                    return '-';
+                }
+                return $image->collected_at;
+            });
             $grid->column('create_date', '发布日期')->display(function ($value) {
                 if ($value == "") {
                     return "-";
