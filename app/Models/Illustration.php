@@ -16,15 +16,16 @@ class Illustration extends Model
         parent::boot();
 
         static::deleted(function ($illust) {
-            //删除图片
             $images = IllustImage::where('illust_id', $illust->pixiv_id)->get();
-            $s3 = new S3();
+
+            //TODO 批量删除删除图片
+//            $s3 = new S3();
             foreach ($images as $image) {
-                $s3->deletedObject($image->square_medium_url);
-                $s3->deletedObject($image->medium_url);
-                $s3->deletedObject($image->large_url);
-                $s3->deletedObject($image->original_url);
-                $s3->deletedObject($image->ugoira_zip_url);
+//                $s3->deletedObject($image->square_medium_url);
+//                $s3->deletedObject($image->medium_url);
+//                $s3->deletedObject($image->large_url);
+//                $s3->deletedObject($image->original_url);
+//                $s3->deletedObject($image->ugoira_zip_url);
                 $image->delete();
             }
         });

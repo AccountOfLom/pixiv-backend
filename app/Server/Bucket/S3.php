@@ -74,21 +74,24 @@ class S3
         return $result['ObjectURL'];
     }
 
+
     /**
-     * 删除文件
      * @param $fileName
-     * @return bool
      */
     public function deletedObject($fileName)
     {
         if (!$fileName) {
-            return false;
+            return;
         }
-        $this->client->deleteObject(array(
+
+        $res = $this->client->deleteObject([
             "Bucket" => $this->bucket,
-            "Key" => $fileName
-        ));
-        return true;
+            "Key" => $fileName,
+            "versionId" => "",
+        ]);
+        if (!isset($res['DeleteMarker']) || !$res['DeleteMarker']) {
+            Log::error("S3文件删除失败，fileName：" . $fileName . "; res:" . json_encode($res));
+        }
     }
 
 
