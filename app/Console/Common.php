@@ -78,6 +78,7 @@ trait Common
         $illusts->create_date = date('Ymd', strtotime($data['create_date']));
         $illusts->total_view = $data['total_view'];
         $illusts->total_bookmarks = $data['total_bookmarks'];
+        $illusts->total_comments = $data['total_comments'];
 
         if ($data['tags'] && count($data['tags'])) {
             $illusts->tag_ids = implode(',', $this->getTagIDs($data['tags']));

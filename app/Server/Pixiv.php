@@ -41,7 +41,6 @@ class Pixiv
      * @param $pixivID
      * @return bool|mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Throwable
      */
     public function userDetail($pixivID) {
         $response = $this->httpClient->request('GET', $this->domain . '/user_detail?user_id=' . $pixivID);
@@ -52,12 +51,17 @@ class Pixiv
     /**
      * 作者作品列表
      * @param $pixivID
+     * @param string $nextURL
      * @return bool|mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Throwable
      */
-    public function userIllusts($pixivID) {
-        $response = $this->httpClient->request('GET', $this->domain . '/user_illusts?user_id=' . $pixivID);
+    public function userIllusts($pixivID, $nextURL = "") {
+        if ($nextURL == "") {
+            $response = $this->httpClient->request('GET', $this->domain . '/user_illusts?user_id=' . $pixivID);
+        } else {
+            //下一页
+            $response = $this->httpClient->request('GET', $this->domain . '/user_illusts_parse_qs?next_url=' . urlencode($nextURL));
+        }
         return $this->formatResponse($response);
     }
 

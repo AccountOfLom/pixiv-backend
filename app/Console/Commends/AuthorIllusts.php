@@ -35,6 +35,13 @@ class AuthorIllusts extends Command
      */
     protected $description = 'author-illusts';
 
+    protected $pixiv;
+
+    function __construct()
+    {
+        $this->pixiv = new Pixiv();
+    }
+
 
     /**
      * 执行控制台命令
@@ -64,21 +71,10 @@ class AuthorIllusts extends Command
         }
 
         //作品列表
-        $pixiv = new Pixiv();
-        $data = $pixiv->userIllusts($author->pixiv_id);
-
-        if (!$data['illusts']) {
-            Log::info("没有采集到此作者的作品 , pixiv_id:" . $author->pixiv_id);
+        $saveRes = $this->getUserIllusts($author->pixiv_id);
+        if (!$saveRes) {
             $author->is_collected_illust = 2;
             return false;
-        }
-
-        foreach ($data['illusts'] as $k => $v) {
-            if (!$this->saveIllusts($v, 1)) {
-                Log::error("作者的作品保存失败 , pixiv_id:" . $author->pixiv_id, '; data:' . json_encode($v));
-                $author->is_collected_illust = 2;
-                return false;
-            }
         }
 
         $author->is_collected_illust = 1;
@@ -87,4 +83,35 @@ class AuthorIllusts extends Command
 
         echo 'collection author illusts success';
     }
+
+    /**
+     * 获取作者所有作品
+     * @param $authorID
+     * @param string $nextURL
+     * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Throwable
+     */
+    private function getUserIllusts($authorID, $nextURL = "") {
+        $data = $this->pixiv->userIllusts($authorID, $nextURL);
+
+        if (!$data['illusts']) {
+            Log::info("没有采集到此作者的作品 , pixiv_id:" . $authorID);
+            return false;
+        }
+
+        foreach ($data['illusts'] as $k => $v) {
+            echo $v['id'] . "\n";
+            if (!$this->saveIllusts($v, 1)) {
+                Log::error("作者的作品保存失败 , pixiv_id:" . $authorID, '; data:' . json_encode($v));
+                return false;
+            }
+        }
+        if (!$data['next_url']) {
+            return true;
+        }
+        $this->getUserIllusts($authorID, $data['next_url']);
+        return true;
+    }
+
 }
