@@ -54,7 +54,6 @@ class AuthorIllusts extends Command
         //采集开关
         $switch = SystemConfig::getConfig(SystemConfig::AUTHOR_ILLUSTS_SWITCH);
         if (!$switch || $switch != SystemConfig::ENABLE) {
-            echo '$switch' . $switch;
             return false;
         }
 
@@ -101,7 +100,6 @@ class AuthorIllusts extends Command
         }
 
         foreach ($data['illusts'] as $k => $v) {
-            echo $v['id'] . "\n";
             if (!$this->saveIllusts($v, 1)) {
                 Log::error("作者的作品保存失败 , pixiv_id:" . $authorID, '; data:' . json_encode($v));
                 return false;

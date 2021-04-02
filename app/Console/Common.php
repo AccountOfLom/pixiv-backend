@@ -11,7 +11,6 @@ use App\Server\Pixiv;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
-use Predis\Client;
 
 trait Common
 {
