@@ -231,7 +231,8 @@ trait Common
             return false;
         }
 
-        return $objectURL;
+//        return $objectURL;
+        return $baseName;
 
 //        return [
 //            'width'     => $img->getWidth(),

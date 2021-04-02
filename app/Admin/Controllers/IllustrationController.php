@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Repositories\Author;
 use App\Admin\Repositories\Illustration;
 use App\Admin\Repositories\SystemConfig;
 use App\Admin\Repositories\Tag;
@@ -36,20 +37,16 @@ class IllustrationController extends AdminController
             $grid->model()->orderBy('id', 'desc');
             $grid->column('id')->width(20)->sortable();
             $grid->column('pixiv_id', 'P站ID');
-            $grid->column('author_pixiv_id' ,'作者PixivID');
+            $grid->column( '作者')->display(function () {
+                $author = (new Author())->getAuthorByPixivID($this->author_pixiv_id);
+                return 'ID:' . $this->author_pixiv_id . "<br/>" . "昵称:" . $author->name;
+            });
             $grid->column('原图宽高')->display(function () {
                 if ($this->width == '') {
                     return '-';
                 }
                 return $this->width . " x " . $this->height;
             })->limit(20);
-            $grid->column( '缩略图')->display(function () {
-                if (!$this->image_collected) {
-                    return '-';
-                }
-                $image = IllustImage::where(['illust_id' => $this->pixiv_id, 'is_collected' => 1])->first();
-                return '<img class="img img-thumbnail" data-action="preview-img" src="'. $image->square_medium_url .'" style="max-width:80px;max-height:80px;cursor:pointer" />';
-            });
             $grid->column( '小图')->display(function () {
                 if (!$this->image_collected) {
                     return '-';
