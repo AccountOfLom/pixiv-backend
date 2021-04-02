@@ -78,6 +78,10 @@ trait Common
         $illusts->total_view = $data['total_view'];
         $illusts->total_bookmarks = $data['total_bookmarks'];
         $illusts->total_comments = $data['total_comments'];
+        //收藏数达标，允许采集相关作品
+        if ($data['total_bookmarks'] >= SystemConfig::getConfig(SystemConfig::ILLUSTS_RELATED_CONDITION)) {
+            $illusts->get_related = 1;
+        }
 
         if ($data['tags'] && count($data['tags'])) {
             $illusts->tag_ids = implode(',', $this->getTagIDs($data['tags']));

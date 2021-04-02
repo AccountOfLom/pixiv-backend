@@ -54,6 +54,7 @@ class IllustrationController extends AdminController
                 $image = IllustImage::where(['illust_id' => $this->pixiv_id, 'is_collected' => 1])->first();
                 return '<img class="img img-thumbnail" data-action="preview-img" src="'. SystemConfig::getS3ResourcesURL($image->medium_url) .'" style="max-width:200px;max-height:200px;cursor:pointer" />';
             });
+            $grid->column('get_related', '采集相关作品')->switch();
             $grid->column('title', '标题')->limit(20);
             $grid->column('type', '类型')->display(function ($value) {
                 if ($value == Illustration::TYPE_ILLUST) {
@@ -64,7 +65,7 @@ class IllustrationController extends AdminController
                 }
                 return "-";
             });
-            $grid->column('内容审核')->display(function() {
+            $grid->column('净网级别')->display(function() {
                 if (!$this->x_restrict && !$this->sanity_level) {
                     return '-';
                 }
@@ -73,14 +74,11 @@ class IllustrationController extends AdminController
                 if ($this->sanity_level == $showSanityLevel) {
                     $sanityColor = '#FC2';
                 }
-                $restrictColor = "#586cb1";
-                $restrictText = '-';
+                $html = '<span style="color:'.$sanityColor.'">Lv:' . $this->sanity_level . "</span>";
                 if ($this->x_restrict == 1) {
-                    $restrictColor = 'red';
-                    $restrictText = 'R18';
+                    return '<span style="color:red">R18</span>';
                 }
-                return  '净网级别:<span style="color:'.$sanityColor.'">' . $this->sanity_level . "</span><br/>" .
-                    '限制级?:<span style="color:'.$restrictColor.'">' . $restrictText . '</span>';
+                return $html;
             });
             $grid->column('page_count', '插画数')->limit(6);
             $grid->column('author_collected', '作者信息已采集？')->display(function ($value) {
