@@ -6,6 +6,7 @@ use App\Models\SystemConfig as Model;
 use Dcat\Admin\Repositories\EloquentRepository;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use phpDocumentor\Reflection\Types\Self_;
 
 class SystemConfig extends EloquentRepository
 {
@@ -40,6 +41,8 @@ class SystemConfig extends EloquentRepository
     const INTERVAL_DOWNLOAD_ILLUSTS_IMAGE = 'interval_download_illusts_image';
     //下载作品图片开关
     const DOWNLOAD_ILLUSTS_IMAGE_SWITCH = 'download_illusts_image_switch';
+    //代理地址
+    const PROXY_URL = 'proxy_url';
 
     /**
      * 根据key获取配置
@@ -61,6 +64,16 @@ class SystemConfig extends EloquentRepository
             return null;
         }
         return $value;
+    }
+
+    /**
+     * 获取S3资源访问地址
+     * @param $fileName
+     * @return string
+     * @throws \Throwable
+     */
+    public static function getS3ResourcesURL($fileName) {
+        return self::getConfig(self::PROXY_URL) . '/' . $fileName;
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\Author;
+use App\Admin\Repositories\SystemConfig;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -32,7 +33,7 @@ class AuthorController extends AdminController
             $grid->column('id')->sortable();
             $grid->column('profile_image_url')->display(function ($value) {
                 if ($value) {
-                    return "<img class='round' data-action='preview-img' width='40' height='40' src='".$value."' />";
+                    return "<img class='round' data-action='preview-img' width='40' height='40' src='".SystemConfig::getS3ResourcesURL($value)."' />";
                 }
                 return "";
             });

@@ -52,7 +52,7 @@ class IllustrationController extends AdminController
                     return '-';
                 }
                 $image = IllustImage::where(['illust_id' => $this->pixiv_id, 'is_collected' => 1])->first();
-                return '<img class="img img-thumbnail" data-action="preview-img" src="'. $image->medium_url .'" style="max-width:200px;max-height:200px;cursor:pointer" />';
+                return '<img class="img img-thumbnail" data-action="preview-img" src="'. SystemConfig::getS3ResourcesURL($image->medium_url) .'" style="max-width:200px;max-height:200px;cursor:pointer" />';
             });
             $grid->column('title', '标题')->limit(20);
             $grid->column('type', '类型')->display(function ($value) {
