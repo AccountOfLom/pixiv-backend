@@ -80,6 +80,24 @@ class Pixiv
 
 
     /**
+     * 相关作品
+     * @param $illustID
+     * @param $nextURL
+     * @return bool|mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function illustRelated($illustID, $nextURL = "") {
+        if ($nextURL == "") {
+            $response = $this->httpClient->request('GET', $this->domain . '/illust_related?illust_id=' . $illustID);
+        } else {
+            //下一页
+            $response = $this->httpClient->request('GET', $this->domain . '/illust_related_parse_qs?next_url=' . urlencode($nextURL));
+        }
+        return $this->formatResponse($response);
+    }
+
+
+    /**
      * 下载图片
      * @param $imageURL
      * @param $downloadPath

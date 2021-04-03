@@ -35,6 +35,9 @@ class IllustrationController extends AdminController
     protected function grid()
     {
         return Grid::make(new Illustration(), function (Grid $grid) {
+
+            $grid->fixColumns(0);
+
             $grid->model()->orderBy('id', 'desc');
             $grid->column('id')->width(20)->sortable();
             $grid->column('pixiv_id', 'P站ID');
@@ -56,7 +59,16 @@ class IllustrationController extends AdminController
                 return '<img class="img img-thumbnail" data-action="preview-img" src="'. SystemConfig::getS3ResourcesURL($image->medium_url) .'" style="max-width:200px;max-height:200px;cursor:pointer" />';
             });
             $grid->column('get_related', '采集相关作品')->switch();
-            $grid->column('title', '标题')->limit(20);
+            $grid->column('related_collected', '相关作品')->display(function ($value) {
+                if ($value == 1) {
+                    return "<span class='label bg-success'>已采集</span>";
+                }
+                if ($value == 2) {
+                    return "<span class='label bg-primary'>采集失败</span>";
+                }
+                return "<code style='color:#4c60a3'>未采集</code>";
+            });
+            $grid->column('title', '标题')->limit(10);
             $grid->column('type', '类型')->display(function ($value) {
                 if ($value == Illustration::TYPE_ILLUST) {
                     return "<span class='label bg-primary'>插画</span>";
@@ -82,15 +94,15 @@ class IllustrationController extends AdminController
                 return $html;
             });
             $grid->column('page_count', '插画数')->limit(6);
-            $grid->column('author_collected', '作者信息已采集？')->display(function ($value) {
+            $grid->column('author_collected', '作者信息')->display(function ($value) {
                 if ($value == '') {
                     return '-';
                 }
                 if ($value == 0) {
-                    return "<span class='label bg-warning' style='color:#FFF !important;'>否</span>";
+                    return "<code style='color:#4c60a3'>未采集</code>";
                 }
                 if ($value == 1) {
-                    return "<span class='label bg-success'>是</span>";
+                    return "<span class='label bg-success'>已采集</span>";
                 }
                 return '-';
             });
@@ -138,10 +150,10 @@ class IllustrationController extends AdminController
                 $filter->equal('sanity_level', '净网级别')->width(3);
                 $filter->equal('author_collected', '作者信息已采集')->select([0 => '否', 1 => '是', 2 => '采集失败'])->width(3);
                 $filter->equal('image_collected', '图片已采集')->select([0 => '否', 1 => '是', 2 => '采集失败'])->width(3);
-                $filter->between('created_at', '采集时间')->datetime()->width(3);
                 $filter->where('search', function ($query) {
                     $query->whereRaw(DB::raw("FIND_IN_SET({$this->input}, tag_ids)"));
                 }, '标签ID')->width(3);
+                $filter->between('created_at', '采集时间')->datetime()->width(3);
             });
         });
     }

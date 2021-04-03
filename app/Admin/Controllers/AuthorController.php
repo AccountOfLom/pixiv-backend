@@ -29,6 +29,11 @@ class AuthorController extends AdminController
     protected function grid()
     {
         return Grid::make(new Author(), function (Grid $grid) {
+
+            $grid->fixColumns(0);
+            $grid->enableDialogCreate();
+            $grid->setDialogFormDimensions('50%', '70%');
+
             $grid->model()->orderBy('id', 'desc');
             $grid->column('id')->sortable();
             $grid->column('profile_image_url')->display(function ($value) {
@@ -51,7 +56,7 @@ class AuthorController extends AdminController
             });
             $grid->column('is_collected_illust')->display(function ($value) {
                 if ($value == 1) {
-                    return "<span class='label bg-primary'>已采集</span>";
+                    return "<span class='label bg-success'>已采集</span>";
                 }
                 if ($value == 2) {
                     return "<span class='label bg-primary'>采集失败</span>";

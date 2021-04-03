@@ -74,6 +74,7 @@ class AuthorIllusts extends Command
         $saveRes = $this->getUserIllusts($author->pixiv_id);
         if (!$saveRes) {
             $author->is_collected_illust = 2;
+            $author->save();
             return false;
         }
 
@@ -101,7 +102,7 @@ class AuthorIllusts extends Command
         }
 
         foreach ($data['illusts'] as $k => $v) {
-            if ($data['total_bookmarks'] < SystemConfig::getConfig(SystemConfig::ILLUSTS_SAVE_CONDITION)) {
+            if ($v['total_bookmarks'] < SystemConfig::getConfig(SystemConfig::ILLUSTS_SAVE_CONDITION)) {
                 continue;
             }
             if (!$this->saveIllusts($v, 1)) {

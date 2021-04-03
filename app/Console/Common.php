@@ -78,6 +78,7 @@ trait Common
         $illusts->total_view = $data['total_view'];
         $illusts->total_bookmarks = $data['total_bookmarks'];
         $illusts->total_comments = $data['total_comments'];
+
         //收藏数达标，允许采集相关作品
         if ($data['total_bookmarks'] >= SystemConfig::getConfig(SystemConfig::ILLUSTS_RELATED_CONDITION)) {
             $illusts->get_related = 1;
@@ -152,7 +153,7 @@ trait Common
             $tagCache = (new \App\Admin\Repositories\Tag())->getTagByName($illustsTag['name']);
             if ($tagCache) {
                 if (!is_object($tagCache)) {
-                    dd($tagCache);
+                    continue;
                 }
                 $tagIDs[] = $tagCache->id;
                 continue;

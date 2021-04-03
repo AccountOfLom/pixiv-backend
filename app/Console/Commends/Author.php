@@ -6,6 +6,7 @@ namespace App\Console\Commends;
 
 use App\Admin\Repositories\SystemConfig;
 use App\Console\Common;
+use App\Models\Illustration;
 use App\Server\Pixiv;
 use Illuminate\Console\Command;
 use App\Models\Author as AuthorModel;
@@ -107,6 +108,9 @@ class Author extends Command
                 $author->is_collected_illust    = 0;
             }
             $author->save();
+
+            Illustration::where('author_pixiv_id', $author->pixiv_id)->update(['author_collected' => 1]);
+
         } catch (\Exception $e) {
             Log::error("作者信息更新失败,line:" . $e->getLine() . '; Message:' . $e->getMessage());
             $author->is_collected = 2;

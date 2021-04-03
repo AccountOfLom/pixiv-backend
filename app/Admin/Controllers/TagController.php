@@ -28,6 +28,9 @@ class TagController extends AdminController
     protected function grid()
     {
         return Grid::make(new Tag(), function (Grid $grid) {
+
+            $grid->enableDialogCreate();
+
             $grid->model()->orderBy('id', 'desc');
             $grid->column('id')->sortable();
             $grid->column('name', '标签名');
@@ -37,7 +40,7 @@ class TagController extends AdminController
             $grid->column('collected_date', '采集日期')->display(function ($value) {
                 return $value ?: "-";
             });
-            $grid->column('is_collected')->display(function ($value) {
+            $grid->column('is_collected', '标签下作品')->display(function ($value) {
                 if ($value == 1) {
                     return "<span class='label bg-primary'>已采集</span>";
                 }

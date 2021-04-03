@@ -47,7 +47,10 @@ class SystemConfig extends EloquentRepository
     const ILLUSTS_SAVE_CONDITION = 'illusts_save_condition';
     //相关作品采集基准（收藏数>=?）
     const ILLUSTS_RELATED_CONDITION = 'illusts_related_condition';
-
+    //相关作品采集开关
+    const ILLUSTS_RELATED_SWITCH = 'illusts_related_switch';
+    //相关作品采集频率（分钟/次）
+    const ILLUSTS_RELATED_INTERVAL = 'illusts_related_interval';
 
     /**
      * 根据key获取配置

@@ -59,11 +59,22 @@ class IllustsImage extends Command
         }
 
         //动画作品暂不下载
-        $images = (new IllustImage())->where("is_collected", 0)->where('p_ugoira_zip_url', '')->first();
+        //一次下载3份图片
+        $images = (new IllustImage())->where("is_collected", 0)->where('p_ugoira_zip_url', '')->limit(3)->get();
         if (!$images) {
             return false;
         }
 
+        foreach ($images as $image) {
+            $this->imgDownloadAndSave($image);
+        }
+
+        echo 'collection illust image success';
+    }
+
+
+    private function imgDownloadAndSave($images)
+    {
         $illusts = (new Illustration())->where('pixiv_id', $images->illust_id)->first();
 
         if (!$images->square_medium_url) {
@@ -128,8 +139,5 @@ class IllustsImage extends Command
 
         $illusts->image_collected = 1;
         $illusts->save();
-
-
-        echo 'collection illust image success';
     }
 }
