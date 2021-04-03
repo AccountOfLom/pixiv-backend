@@ -46,7 +46,7 @@ class IllustrationController extends AdminController
                 if (!$author) {
                     return '-';
                 }
-                return 'ID:' . $this->author_pixiv_id . "<br/>" . "昵称:" . $author['name'];
+                return 'ID:' . $this->author_pixiv_id . "<br/>" . "昵称:" . property_exists($author, 'name') ? $author->name : '-';
             });
             $grid->column('原图宽高')->display(function () {
                 if ($this->width == '') {
