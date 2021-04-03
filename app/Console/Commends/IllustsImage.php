@@ -60,7 +60,7 @@ class IllustsImage extends Command
 
         //动画作品暂不下载
         //一次下载3份图片
-        $images = (new IllustImage())->where("is_collected", 0)->where('p_ugoira_zip_url', '')->limit(3)->get();
+        $images = (new IllustImage())->where("is_collected", 0)->where('p_ugoira_zip_url', '')->orderBy('is_priority_collect', 'desc')->limit(3)->get();
         if (!$images) {
             return false;
         }

@@ -70,7 +70,7 @@ class IllustsRelated extends Command
             return false;
         }
 
-        $illust = Illustration::where(['get_related' => 1, 'related_collected' => 0])->first();
+        $illust = Illustration::where(['get_related' => 1, 'related_collected' => 0])->orderBy('is_priority_collect', 'desc')->first();
         if (!$illust) {
             return false;
         }
