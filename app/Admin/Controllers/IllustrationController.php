@@ -43,6 +43,9 @@ class IllustrationController extends AdminController
             $grid->column('pixiv_id', 'P站ID');
             $grid->column( '作者')->display(function () {
                 $author = (new Author())->getAuthorByPixivID($this->author_pixiv_id);
+                if (!$author) {
+                    return '-';
+                }
                 return 'ID:' . $this->author_pixiv_id . "<br/>" . "昵称:" . $author->name;
             });
             $grid->column('原图宽高')->display(function () {
