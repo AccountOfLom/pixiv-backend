@@ -36,7 +36,7 @@ class Author extends EloquentRepository
             return $author;
         }
         $author = $client->hget(self::AUTHOR_CACHE_KEY, $pixiv);
-        return json_decode($author);
+        return json_decode($author, true);
     }
 
 }
