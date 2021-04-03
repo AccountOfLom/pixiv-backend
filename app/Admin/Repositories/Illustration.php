@@ -19,4 +19,9 @@ class Illustration extends EloquentRepository
 
     //动画类型
     const TYPE_UGOIRA = 'ugoira';
+
+    //漫画
+    const TYPE_MANGA = 'manga';
+
+
 }

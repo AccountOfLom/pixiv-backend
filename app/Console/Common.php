@@ -52,6 +52,10 @@ trait Common
      * @throws \Throwable
      */
     protected function saveIllusts($data, $authorCollected = 0) {
+        //漫画类型，不保存
+        if ($data['type'] == \App\Admin\Repositories\Illustration::TYPE_MANGA) {
+            return true;
+        }
 
         $illustsExist = Illustration::where('pixiv_id', $data['id'])->first();
         if ($illustsExist) {
