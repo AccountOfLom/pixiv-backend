@@ -27,6 +27,10 @@ class SystemConfigController extends AdminController
     protected function grid()
     {
         return Grid::make(new SystemConfig(), function (Grid $grid) {
+
+            $grid->enableDialogCreate();
+            $grid->setDialogFormDimensions('700px', '450px');
+
             $grid->column('id')->sortable();
             $grid->column('remarks', '设置项');
             $grid->column('key');
@@ -52,9 +56,9 @@ class SystemConfigController extends AdminController
     {
         return Show::make($id, new SystemConfig(), function (Show $show) {
             $show->field('id');
+            $show->field('remarks');
             $show->field('key');
             $show->field('value');
-            $show->field('remarks');
             $show->field('created_at');
             $show->field('updated_at');
         });
@@ -69,9 +73,9 @@ class SystemConfigController extends AdminController
     {
         return Form::make(new SystemConfig(), function (Form $form) {
             $form->display('id');
+            $form->text('remarks', '设置项名称');
             $form->text('key');
             $form->text('value');
-            $form->text('remarks', '设置项名称');
             $form->display('created_at');
             $form->display('updated_at');
         });
