@@ -147,6 +147,10 @@ class Pixiv
             Log::error("采集数据格式化失败：" . $content);
             return false;
         }
+        if (isset($response['error'])) {
+            Log::error("数据采集失败：" . $content);
+            return false;
+        }
         return $response;
     }
 
