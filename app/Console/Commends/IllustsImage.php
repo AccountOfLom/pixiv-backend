@@ -44,6 +44,7 @@ class IllustsImage extends Command
      */
     public function handle()
     {
+        sleep(rand(1, 9));
         //采集开关
         $switch = SystemConfig::getConfig(SystemConfig::DOWNLOAD_ILLUSTS_IMAGE_SWITCH);
         if (!$switch || $switch != SystemConfig::ENABLE) {
