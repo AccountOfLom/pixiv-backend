@@ -52,7 +52,6 @@ class AuthorIllusts extends Command
      */
     public function handle()
     {
-        sleep(rand(1, 9));
         //采集开关
         $switch = SystemConfig::getConfig(SystemConfig::AUTHOR_ILLUSTS_SWITCH);
         if (!$switch || $switch != SystemConfig::ENABLE) {

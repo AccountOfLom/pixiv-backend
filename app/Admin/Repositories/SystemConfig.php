@@ -53,6 +53,8 @@ class SystemConfig extends EloquentRepository
     const ILLUSTS_RELATED_INTERVAL = 'illusts_related_interval';
     //允许最大图片数
     const PAGE_COUNT_MAX = 10;
+    //p站接口调用频率
+    const P_API_INTERVAL = "p_api_interval";
 
     /**
      * 根据key获取配置

@@ -45,7 +45,6 @@ class Author extends Command
      */
     public function handle()
     {
-        sleep(rand(1, 9));
         //作者信息采集开关
         $switch = SystemConfig::getConfig(SystemConfig::P_AUTHOR_SWITCH);
         if (!$switch || $switch != SystemConfig::ENABLE) {

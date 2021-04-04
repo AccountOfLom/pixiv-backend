@@ -44,7 +44,6 @@ class IllustsImage extends Command
      */
     public function handle()
     {
-        sleep(rand(1, 9));
         //采集开关
         $switch = SystemConfig::getConfig(SystemConfig::DOWNLOAD_ILLUSTS_IMAGE_SWITCH);
         if (!$switch || $switch != SystemConfig::ENABLE) {
@@ -60,8 +59,8 @@ class IllustsImage extends Command
         }
 
         //动画作品暂不下载
-        //一次下载3份图片
-        $images = (new IllustImage())->where("is_collected", 0)->where('p_ugoira_zip_url', '')->orderBy('is_priority_collect', 'desc')->limit(3)->get();
+        //TODO 一次下载N份图片
+        $images = (new IllustImage())->where("is_collected", 0)->where('p_ugoira_zip_url', '')->orderBy('is_priority_collect', 'desc')->limit(1)->get();
         if (!$images) {
             return false;
         }
