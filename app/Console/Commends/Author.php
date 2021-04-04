@@ -78,13 +78,16 @@ class Author extends Command
         }
 
         //主页背景
-        $bgImgURL = $authorInfo['profile']['background_image_url'];
-        $bgImg = $this->imgDownloadAndUploadAndDel($bgImgURL);
-        if (!$bgImg) {
-            Log::error("作者主页背景图保存失败 ,background_image_url:" . $bgImgURL);
-            $author->is_collected = 2;
-            $author->save();
-            return false;
+        $bgImg = "";
+        if (isset($authorInfo['profile']['background_image_url'])) {
+            $bgImgURL = $authorInfo['profile']['background_image_url'];
+            $bgImg = $this->imgDownloadAndUploadAndDel($bgImgURL);
+            if (!$bgImg) {
+                Log::error("作者主页背景图保存失败 ,background_image_url:" . $bgImgURL);
+                $author->is_collected = 2;
+                $author->save();
+                return false;
+            }
         }
 
         try {
