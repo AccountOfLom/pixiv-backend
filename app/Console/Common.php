@@ -57,6 +57,11 @@ trait Common
             return true;
         }
 
+        //允许最大图片数
+        if ($data['page_count'] > SystemConfig::PAGE_COUNT_MAX) {
+            return true;
+        }
+
         $illustsExist = Illustration::where('pixiv_id', $data['id'])->first();
         if ($illustsExist) {
             return true;

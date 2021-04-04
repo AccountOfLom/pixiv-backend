@@ -80,6 +80,9 @@ class IllustrationController extends AdminController
                 if ($value == Illustration::TYPE_UGOIRA) {
                     return "<span class='label bg-success'>动画</span>";
                 }
+                if ($value == Illustration::TYPE_MANGA) {
+                    return "<span class='label bg-success'>漫画</span>";
+                }
                 return "-";
             });
             $grid->column('净网级别')->display(function() {
@@ -110,6 +113,8 @@ class IllustrationController extends AdminController
                 }
                 return '-';
             });
+            $grid->column('total_bookmarks', '收藏数')->sort();
+            $grid->column('total_view', '查看数')->sort();
             $grid->column('tag_ids', '标签')->display(function ($value) {
                 if ($value == "") {
                     return '-';
@@ -137,10 +142,6 @@ class IllustrationController extends AdminController
                     return "-";
                 }
                 return date('Y-m-d', strtotime($value));
-            });
-            $grid->column('展示数据')->display(function () {
-                return  '查看: <span style="color:#586cb1">' . $this->total_view . "</span><br/>" .
-                    '收藏: <span style="color:#586cb1">' . $this->total_bookmarks . '</span>';
             });
             $grid->column('created_at');
 

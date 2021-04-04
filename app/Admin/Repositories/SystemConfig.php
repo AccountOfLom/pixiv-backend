@@ -51,6 +51,8 @@ class SystemConfig extends EloquentRepository
     const ILLUSTS_RELATED_SWITCH = 'illusts_related_switch';
     //相关作品采集频率（分钟/次）
     const ILLUSTS_RELATED_INTERVAL = 'illusts_related_interval';
+    //允许最大图片数
+    const PAGE_COUNT_MAX = 10;
 
     /**
      * 根据key获取配置
