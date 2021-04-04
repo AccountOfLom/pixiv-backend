@@ -206,6 +206,10 @@ trait Common
      * @throws \Throwable
      */
     protected function imgDownloadAndUploadAndDel($pixivURL) {
+        if (!$pixivURL) {
+            return false;
+        }
+
         //下载头像
         $pixiv = new Pixiv();
 
