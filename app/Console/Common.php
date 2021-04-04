@@ -57,6 +57,11 @@ trait Common
             return true;
         }
 
+        //图片过大，不保存
+        if ($data['height'] >= 2000 && $data['width'] >= 2000) {
+            return true;
+        }
+
         //允许最大图片数
         if ($data['page_count'] > SystemConfig::PAGE_COUNT_MAX) {
             return true;
