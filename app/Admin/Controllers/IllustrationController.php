@@ -113,8 +113,8 @@ class IllustrationController extends AdminController
                 }
                 return '-';
             });
-            $grid->column('total_bookmarks', '收藏数')->sort();
-            $grid->column('total_view', '查看数')->sort();
+            $grid->column('total_bookmarks', '收藏数')->sortable();
+            $grid->column('total_view', '查看数')->sortable();
             $grid->column('tag_ids', '标签')->display(function ($value) {
                 if ($value == "") {
                     return '-';
