@@ -58,7 +58,7 @@ class Author extends Command
             return false;
         }
 
-        $author = (new AuthorModel())->where("is_collected", 0)->orderBy("is_priority_collect", "desc")->first();
+        $author = (new AuthorModel())->where("is_collected", 0)->orderBy("is_priority_collect", "desc")->orderBy('id')->first();
         if (!$author) {
             return false;
         }
