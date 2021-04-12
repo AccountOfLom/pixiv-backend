@@ -3,6 +3,8 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\IllustRanking;
+use App\Admin\Repositories\SystemConfig;
+use App\Models\IllustImage;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Layout\Content;
@@ -36,6 +38,13 @@ class IllustRankingController extends AdminController
                 }
             });
             $grid->column('date', '日期');
+            $grid->column( '小图')->display(function () {
+                $image = IllustImage::where(['illust_id' => $this->pixiv_id, 'is_collected' => 1])->first();
+                if (!$image) {
+                    return '-';
+                }
+                return '<img class="img img-thumbnail" data-action="preview-img" src="'. SystemConfig::getS3ResourcesURL($image->medium_url) .'" style="max-width:200px;max-height:200px;cursor:pointer" />';
+            });
             $grid->column('created_at');
         
             $grid->filter(function (Grid\Filter $filter) {
