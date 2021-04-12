@@ -28,6 +28,7 @@ class AnimeController extends AdminController
     protected function grid()
     {
         return Grid::make(new Anime(), function (Grid $grid) {
+            $grid->model()->orderBy('id', 'desc');
             $grid->column('id')->sortable();
             $grid->column('title', '标题')->limit(20);
             $grid->column('image', '封面')->display(function ($value) {

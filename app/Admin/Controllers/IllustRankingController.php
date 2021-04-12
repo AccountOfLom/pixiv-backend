@@ -27,6 +27,7 @@ class IllustRankingController extends AdminController
     protected function grid()
     {
         return Grid::make(new IllustRanking(), function (Grid $grid) {
+            $grid->model()->orderBy('id', 'desc');
             $grid->column('id')->sortable();
             $grid->column('pixiv_id', 'P站ID');
             $grid->column('mode', '模式')->display(function ($value) {
