@@ -29,7 +29,7 @@ class IllustRankingController extends AdminController
     protected function grid()
     {
         return Grid::make(new IllustRanking(), function (Grid $grid) {
-            $grid->model()->orderBy('id', 'desc');
+            $grid->model()->orderBy('date', 'desc')->orderBy("id", 'asc');
             $grid->column('id')->sortable();
             $grid->column('pixiv_id', 'P站ID');
             $grid->column('mode', '模式')->display(function ($value) {
@@ -50,15 +50,14 @@ class IllustRankingController extends AdminController
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->panel();
                 $filter->equal('pixiv_id', 'P站ID')->width(3);
-                $filter->where('search', function ($query) {
-                    $query->whereRaw(DB::raw("FIND_IN_SET({$this->input}, tag_ids)"));
-                }, '标签ID')->width(3);
                 $filter->between('created_at', '采集时间')->datetime()->width(3);
             });
         });
     }
 
     /**
+     *
+     *
      * Make a show builder.
      *
      * @param mixed $id
