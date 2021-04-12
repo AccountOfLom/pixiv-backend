@@ -48,8 +48,12 @@ class IllustRankingController extends AdminController
             $grid->column('created_at');
         
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-        
+                $filter->panel();
+                $filter->equal('pixiv_id', 'P站ID')->width(3);
+                $filter->where('search', function ($query) {
+                    $query->whereRaw(DB::raw("FIND_IN_SET({$this->input}, tag_ids)"));
+                }, '标签ID')->width(3);
+                $filter->between('created_at', '采集时间')->datetime()->width(3);
             });
         });
     }
