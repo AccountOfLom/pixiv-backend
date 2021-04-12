@@ -58,7 +58,7 @@ class IllustRankingController extends AdminController
             $show->field('pixiv_id');
             $show->field('mode');
             $show->field('date');
-            $show->field('upated_at');
+            $show->field('updated_at');
             $show->field('created_at');
         });
     }
@@ -75,7 +75,7 @@ class IllustRankingController extends AdminController
             $form->text('pixiv_id');
             $form->text('mode');
             $form->text('date');
-            $form->text('upated_at');
+            $form->text('updated_at');
             $form->text('created_at');
         });
     }
