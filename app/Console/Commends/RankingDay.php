@@ -97,7 +97,7 @@ class RankingDay extends Command
                 return false;
             }
 
-            (new IllustImage())->where("illust_id", $v['id'])->update('is_priority_collect', 1);
+            (new IllustImage())->where("illust_id", $v['id'])->update(['is_priority_collect' => 1]);
 
             $ranking = new IllustRanking();
             $ranking->pixiv_id = $v['id'];
