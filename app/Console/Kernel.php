@@ -45,7 +45,7 @@ class Kernel extends ConsoleKernel
             //采集相关作品
             $schedule->command('illusts-related')->everyMinute();
             //作品排行
-            $schedule->command('ranking-day')->dailyAt('01:00');
+            $schedule->command('ranking-day')->dailyAt('08:00');
         }
 
     }

@@ -85,6 +85,7 @@ class RankingDay extends Command
      */
     private function getRanking($mode, $date, $nextURL = "") {
         $data = $this->pixiv->illustRanking($mode, $date, $nextURL);
+        dd($data);
 
         if (!$data['illusts']) {
             Log::info("没有采集到排行作品 , mode:" . $mode . '; date:' . $date);
