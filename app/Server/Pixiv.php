@@ -98,6 +98,27 @@ class Pixiv
 
 
     /**
+     * 作品排行
+     * @param $illustID
+     * @param $nextURL
+     * @return bool|mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function illustRanking($mode, $date, $nextURL = "") {
+        if ($nextURL == "") {
+            $response = $this->httpClient->request('GET', $this->domain . '/ranking_all?mode=' . $mode . '&date=' . $date);
+        } else {
+            //下一页
+            $response = $this->httpClient->request('GET', $this->domain . '/ranking_all_parse_qs?next_url=' . urlencode($nextURL));
+        }
+        return $this->formatResponse($response);
+    }
+
+
+
+
+
+    /**
      * 下载图片
      * @param $imageURL
      * @param $downloadPath

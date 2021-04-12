@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Admin\Repositories\SystemConfig;
+use App\Models\Author;
 use App\Models\IllustImage;
 use App\Models\Illustration;
 use App\Models\Tag;
@@ -46,12 +47,11 @@ trait Common
     /**
      * 保存作品信息
      * @param $data
-     * @param int $authorCollected
      * @return bool
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Throwable
      */
-    protected function saveIllusts($data, $authorCollected = 0) {
+    protected function saveIllusts($data) {
         //漫画类型，不保存
         if ($data['type'] == \App\Admin\Repositories\Illustration::TYPE_MANGA) {
             return true;
@@ -72,11 +72,13 @@ trait Common
             return true;
         }
 
+        $authorCollected = Author::where(['pixiv_id' => $data['user']['id'], 'is_collected' => 1])->exists();
+
         $illusts = new Illustration();
 
         $illusts->pixiv_id = $data['id'];
         $illusts->author_pixiv_id = $data['user']['id'];
-        $illusts->author_collected = $authorCollected;
+        $illusts->author_collected = $authorCollected ? 1 : 0;
         $illusts->title = $data['title'];
         $illusts->type = $data['type'];
         $illusts->caption = $data['caption'];

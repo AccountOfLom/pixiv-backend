@@ -108,12 +108,8 @@ class IllustsRelated extends Command
 
             //作者信息
             $author = \App\Models\Author::where('pixiv_id', $v['user']['id'])->exists();
-            $authorCollected = 0;
-            if ($author) {
-                $authorCollected = 1;
-            }
 
-            if (!$this->saveIllusts($v, $authorCollected)) {
+            if (!$this->saveIllusts($v)) {
                 Log::error("相关作品保存失败 , illust_id:" . $illustID, '; data:' . json_encode($v));
                 return false;
             }

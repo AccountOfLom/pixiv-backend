@@ -55,6 +55,9 @@ class SystemConfig extends EloquentRepository
     const PAGE_COUNT_MAX = 10;
     //p站接口调用频率
     const P_API_INTERVAL = "p_api_interval";
+    //R18作品日排行
+    const RANKING_DAY_SWITCH = "ranking_day_switch";
+
 
     /**
      * 根据key获取配置
@@ -81,10 +84,16 @@ class SystemConfig extends EloquentRepository
     /**
      * 获取S3资源访问地址
      * @param $fileName
+     * @param string $type
      * @return string
      * @throws \Throwable
      */
-    public static function getS3ResourcesURL($fileName) {
+    public static function getS3ResourcesURL($fileName, $type = "") {
+        if ($type == Anime::TYPE_ANIME) {
+            //动漫资源反向代理读取速度慢，需直接获取资源
+            $conf = self::getConfig(self::S3);
+            return json_decode($conf, true)['object_domain'] . '/' . $fileName;
+        }
         return self::getConfig(self::PROXY_URL) . '/' . $fileName;
     }
 

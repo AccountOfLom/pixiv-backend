@@ -7,6 +7,7 @@ use App\Console\Commends\Author;
 use App\Console\Commends\AuthorIllusts;
 use App\Console\Commends\IllustsImage;
 use App\Console\Commends\IllustsRelated;
+use App\Console\Commends\RankingDay;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -22,6 +23,7 @@ class Kernel extends ConsoleKernel
         'author-illusts'    => AuthorIllusts::class,
         'illusts-image'     => IllustsImage::class,
         'illusts-related'   => IllustsRelated::class,
+        'ranking-day'       => RankingDay::class,
     ];
 
 
@@ -42,6 +44,8 @@ class Kernel extends ConsoleKernel
             $schedule->command('illusts-image')->everyMinute();
             //采集相关作品
             $schedule->command('illusts-related')->everyMinute();
+            //作品排行
+            $schedule->command('ranking-day')->dailyAt('01:00');
         }
 
     }

@@ -105,7 +105,7 @@ class AuthorIllusts extends Command
             if ($v['total_bookmarks'] < SystemConfig::getConfig(SystemConfig::ILLUSTS_SAVE_CONDITION)) {
                 continue;
             }
-            if (!$this->saveIllusts($v, 1)) {
+            if (!$this->saveIllusts($v)) {
                 Log::error("作者的作品保存失败 , pixiv_id:" . $authorID, '; data:' . json_encode($v));
                 return false;
             }
