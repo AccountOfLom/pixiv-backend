@@ -103,6 +103,7 @@ class RankingDay extends Command
             $ranking->pixiv_id = $v['id'];
             $ranking->mode = $this->mode;
             $ranking->date = $date;
+            $ranking->save();
         }
 
         if (!$data['next_url']) {
