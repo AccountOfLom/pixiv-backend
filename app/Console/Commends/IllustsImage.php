@@ -99,16 +99,17 @@ class IllustsImage extends Command
             $images->medium_url = $mediumURL;
         }
 
-        if (!$images->large_url) {
-            $largeURL = $this->imgDownloadAndUploadAndDel($images->p_large_url);
-            if (!$largeURL) {
-                Log::error("图片保存失败 ,Illustration pixiv_id:". $images->illust_id ."; p_large_url:" . $images->p_large_url);
-                $images->is_collected = 2;
-                $images->save();
-                return false;
-            }
-            $images->large_url = $largeURL;
-        }
+        // large_url 和 medium_url 是一样的？
+//        if (!$images->large_url) {
+//            $largeURL = $this->imgDownloadAndUploadAndDel($images->p_large_url);
+//            if (!$largeURL) {
+//                Log::error("图片保存失败 ,Illustration pixiv_id:". $images->illust_id ."; p_large_url:" . $images->p_large_url);
+//                $images->is_collected = 2;
+//                $images->save();
+//                return false;
+//            }
+//            $images->large_url = $largeURL;
+//        }
 
         if (!$images->original_url) {
             $originalURL = $this->imgDownloadAndUploadAndDel($images->p_original_url);
