@@ -14,8 +14,6 @@ use App\Http\Controllers\Controller;
 use App\Models\IllustRanking;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Route;
-use Predis\Client;
 
 /**
  * 作品排行
@@ -33,6 +31,12 @@ class IllustRankingController extends Controller
      */
     public function r18Day()
     {
+
+        $cacheData = $this->cacheData();
+        if ($cacheData) {
+            return $cacheData;
+        }
+
         //取日排行最新日期
         $date = Request::all('date');
         if (!$date) {
@@ -41,14 +45,6 @@ class IllustRankingController extends Controller
                 return [];
             }
             $date = $illust->date;
-        }
-
-        $cacheKey = md5(Route::current()->uri . json_encode(Request::all()));
-
-        $redis = new Client();
-        $data = $redis->exists($cacheKey);
-        if ($data) {
-            return $this->success($redis->get($cacheKey));
         }
 
         $data = DB::table('illust_rankings as r')
@@ -65,8 +61,6 @@ class IllustRankingController extends Controller
             $data[$k]->square_medium_url = SystemConfig::getS3ResourcesURL($v->square_medium_url);
         }
 
-        $redis->set($cacheKey, json_encode($data));
-        $redis->expire($cacheKey, 600);
-        return $this->success($data);
+        return $this->success($data, true);
     }
 }
