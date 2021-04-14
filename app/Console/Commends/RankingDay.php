@@ -63,10 +63,6 @@ class RankingDay extends Command
 
         //昨日的排行
         $date = date("Y-m-d", strtotime(' -1 day'));
-        $collected = (new IllustRanking())->where("date", $date)->exists();
-        if ($collected) {
-            return false;
-        }
 
         //作品列表
         $this->getRanking($this->mode, $date);
