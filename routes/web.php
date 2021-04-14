@@ -14,18 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('admin');
 });
 
-Route::get('/test', function () {
-    (new \App\Console\Commends\Author())->handle();
-
-//    $filePath = 'E:\phpstudy_pro\WWW\20210312194840.png';
-//    $img = \Intervention\Image\Facades\Image::make($filePath);
-//    if (!$img) {
-//        Log::error("图片文件不存在，filePath:" . $filePath);
-//        return false;
-//    }
-//    return (new \App\Server\Bucket\S3())->deletedObject($img->basename);
-//    return (new \App\Server\Bucket\S3())->putObject($img->basename, $img->mime(), $filePath);
+Route::get('/ranking_day', function () {
+    (new \App\Console\Commends\RankingDay())->handle();
 });
+
