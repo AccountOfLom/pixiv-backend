@@ -26,11 +26,11 @@ Route::post('redis/flushall', function () {
 
 Route::middleware('site')->prefix('v1')->group(function () {
     //首页标签推荐和排行榜
-    Route::get('home/tag-and-ranking', 'v1\illustrationController@tagsAndR18');
+    Route::get('home/tag-and-ranking', 'v1\IllustrationController@tagsAndR18');
     //r18日排行
-    Route::get('ranking/day-r18', 'v1\illustrationController@r18Day');
+    Route::get('ranking/day-r18', 'v1\IllustrationController@r18Day');
     //插画列表
-    Route::get('illustrations', 'v1\illustrationController@list');
+    Route::get('illustrations', 'v1\IllustrationController@list');
     //发送验证码
 //    Route::post('sms/send', 'v1\SMSController@sendVerificationCode');
     //会员注册
