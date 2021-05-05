@@ -24,7 +24,7 @@ class Site extends EloquentRepository
         if ($conf) {
             return json_decode($conf, true);
         }
-        $conf = \App\Models\Site::where('id', $id)->get();
+        $conf = \App\Models\Site::where('id', $id)->first();
         if (!$conf) {
             return null;
         }

@@ -23,7 +23,7 @@ class Tag extends EloquentRepository
         $client = new Client();
         $exist = $client->hexists(self::TAG_CACHE_KEY, $name);
         if (!$exist) {
-            $tag = \App\Models\Tag::where('name', $name)->first();
+            $tag = \App\Models\Tag::where('name', $name)->select(['id', 'name', 'translated_name'])->first();
             if (!$tag) {
                 return null;
             }
@@ -39,7 +39,7 @@ class Tag extends EloquentRepository
         $client = new Client();
         $exist = $client->hexists(self::TAG_CACHE_KEY, $id);
         if (!$exist) {
-            $tag = \App\Models\Tag::where('id', $id)->first();
+            $tag = \App\Models\Tag::where('id', $id)->select(['id', 'name', 'translated_name'])->first();
             if (!$tag) {
                 return null;
             }

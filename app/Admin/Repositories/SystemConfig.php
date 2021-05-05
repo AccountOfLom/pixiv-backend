@@ -83,18 +83,24 @@ class SystemConfig extends EloquentRepository
 
     /**
      * 获取S3资源访问地址
-     * @param $fileName
+     * @param $file
      * @param string $type
      * @return string
      * @throws \Throwable
      */
-    public static function getS3ResourcesURL($fileName, $type = "") {
-        if ($type == Anime::TYPE_ANIME) {
-            //动漫资源反向代理读取速度慢，需直接获取资源
-            $conf = self::getConfig(self::S3);
-            return json_decode($conf, true)['object_domain'] . '/' . $fileName;
+    public static function getS3ResourcesURL($file, $type = "") {
+        if (is_string($file)) {
+            if (!$file) {
+                return '';
+            }
+            return self::getConfig(self::PROXY_URL) . '/' . $file;
         }
-        return self::getConfig(self::PROXY_URL) . '/' . $fileName;
+        if (is_array($file)) {
+            foreach ($file as $k => $v) {
+                $file[$k] = self::getS3ResourcesURL($v);
+            }
+            return $file;
+        }
     }
 
 }

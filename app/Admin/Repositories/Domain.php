@@ -19,17 +19,17 @@ class Domain extends EloquentRepository
     //缓存key
     const CACHE_KEY = 'domain_';
 
-    public static function info($id) {
+    public static function info($domain) {
         $redis = new Client();
-        $conf = $redis->get(self::CACHE_KEY . $id);
+        $conf = $redis->get(self::CACHE_KEY . $domain);
         if ($conf) {
             return json_decode($conf, true);
         }
-        $conf = \App\Models\Domain::where('id', $id)->get();
+        $conf = \App\Models\Domain::where('domain', $domain)->first();
         if (!$conf) {
             return null;
         }
-        $redis->set(self::CACHE_KEY . $id, json_encode($conf));
+        $redis->set(self::CACHE_KEY . $domain, json_encode($conf));
         return $conf->toArray();
     }
 

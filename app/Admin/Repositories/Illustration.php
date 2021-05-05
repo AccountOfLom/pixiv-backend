@@ -23,5 +23,11 @@ class Illustration extends EloquentRepository
     //漫画
     const TYPE_MANGA = 'manga';
 
+    public $typeText = [
+        'illust' => '插画',
+        'ugoira' => '动画',
+        'manga' => '漫画'
+    ];
+
 
 }
