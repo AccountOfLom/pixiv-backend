@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Validator;
 use Predis\Client;
 
 
@@ -19,10 +20,11 @@ class Controller extends BaseController
 
     protected $expireTime = 600;
 
-
     protected function cacheKey()
     {
-        $this->dataCacheKey = md5(Route::current()->uri . json_encode(Request::all()));
+        $params = Request::all();
+        $params['is_login'] = Request::get('is_login');
+        $this->dataCacheKey = md5(Route::current()->uri . json_encode($params));
     }
 
     protected function cacheData()
@@ -38,7 +40,7 @@ class Controller extends BaseController
     }
 
 
-    public function success($data, $cache = false)
+    protected function success($data = [], $cache = false)
     {
         if ($cache) {
             if (!$this->dataCacheKey) {
@@ -63,16 +65,16 @@ class Controller extends BaseController
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => $data
+            'body' => $data
         ];
     }
 
-    public function error($msg = '', $data = null)
+    protected function error($msg = '', $data = [])
     {
         return [
             'code' => 1,
             'message' => $msg,
-            'data' => $data
+            'body' => $data
         ];
     }
 }

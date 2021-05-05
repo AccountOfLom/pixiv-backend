@@ -11,6 +11,7 @@ use Dcat\Admin\Grid;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class PaintController extends AdminController
@@ -19,7 +20,7 @@ class PaintController extends AdminController
     public function index(Content $content)
     {
         return $content
-            ->header('绘画')
+            ->header('精选')
             ->body($this->grid());
     }
 
@@ -32,6 +33,9 @@ class PaintController extends AdminController
     {
         return Grid::make(new Paint(), function (Grid $grid) {
             $grid->column('id')->sortable();
+            $grid->column('原图宽高')->display(function () {
+                return $this->width . '*' . $this->height;
+            });
             $grid->column('title', '标题')->display(function ($value) {
                 return $value ?? '-';
             });
@@ -84,6 +88,8 @@ class PaintController extends AdminController
     {
         return Show::make($id, new Paint(), function (Show $show) {
             $show->field('id');
+            $show->field('width');
+            $show->field('height');
             $show->field('thumbnail');
             $show->field('url');
             $show->field('title');
@@ -125,29 +131,23 @@ class PaintController extends AdminController
 //                $form->url = $images[0];
 ////                $form->thumbnail = FileController::getThumbnailIngName($images[0]);
 ////                unset($images[0]);
-///
-                $existCount = 0;
+
                 foreach ($images as $image) {
-
-                    $exist = \App\Models\Paint::where('url', $image)->first();
-                    if ($exist) {
-                        $existCount++;
-                        continue;
+                    $paint = \App\Models\Paint::where('url', $image)->first();
+                    if (!$paint) {
+                        $paint = new \App\Models\Paint();
                     }
-
-                    $paint = new \App\Models\Paint();
                     $paint->title = $form->title;
                     $paint->tag_ids = $form->tag_ids;
                     $paint->url = $image;
                     $paint->thumbnail = FileController::getThumbnailIngName($image);
                     $paint->file_md5 = md5(file_get_contents(SystemConfig::getS3ResourcesURL($image)));
+                    $paint->width = Cache::get($image . 'width');
+                    $paint->height = Cache::get($image . 'height');
                     $paint->save();
 
                 }
                 $msg = '保存成功';
-                if ($existCount > 0) {
-                    $msg .= "; $existCount 张图片已存在，已自动忽略";
-                }
                 return $form->response()->success($msg)->refresh();
             });
         });

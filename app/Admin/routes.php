@@ -26,13 +26,19 @@ Route::group([
     $router->resource('domain', 'DomainController');
     //动漫
     $router->resource('anime', 'AnimeController');
-    //绘画
+    //动漫系列
+    $router->resource('anime_group', 'AnimeGroupController');
+    //精选
     $router->resource('paint', 'PaintController');
-
+    //图片上传
     $router->any('image', 'FileController@image');
-
     //作品排行
     $router->resource('illust_ranking', 'IllustRankingController');
+    //会员
+    $router->resource('member', 'MemberController');
+    //收藏
+    $router->resource('bookmark', 'BookmarkController');
+
 });
 
 

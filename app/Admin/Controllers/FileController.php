@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\Paint;
 use App\Server\Bucket\S3;
 use Dcat\Admin\Traits\HasUploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 
 /**
@@ -62,8 +63,10 @@ class FileController
         file_put_contents($imagePath, $imageContent);
 
         $image = Image::make($imagePath);
+        Cache::add($baseURL . 'width', $image->width(), 360);
+        Cache::add($baseURL . 'height', $image->height(), 360);
 
-        $benchmark = 360;
+        $benchmark = 720;
         $w = $benchmark;
         $h = $benchmark;
         if ($image->width() < $image->height()) {

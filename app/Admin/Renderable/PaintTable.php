@@ -7,6 +7,7 @@
  */
 
 namespace App\Admin\Renderable;
+
 use App\Models\Tag;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Grid\LazyRenderable;

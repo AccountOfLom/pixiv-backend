@@ -20,11 +20,11 @@ class Domain extends Model
         $client = new Client();
 
         static::saved(function ($domain) use ($client) {
-            $client->set(\App\Admin\Repositories\Domain::CACHE_KEY . $domain->id, json_encode($domain));
+            $client->set(\App\Admin\Repositories\Domain::CACHE_KEY . $domain->domain, json_encode($domain));
         });
 
         static::deleted(function ($domain) use ($client) {
-            $client->del(\App\Admin\Repositories\Domain::CACHE_KEY . $domain->id);
+            $client->del(\App\Admin\Repositories\Domain::CACHE_KEY . $domain->domain);
         });
     }
 }

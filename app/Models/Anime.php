@@ -10,4 +10,4 @@ class Anime extends Model
 {
 	use HasDateTimeFormatter;
     use SoftDeletes;
-    }
+}

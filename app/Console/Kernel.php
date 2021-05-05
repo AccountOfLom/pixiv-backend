@@ -6,6 +6,7 @@ use App\Admin\Repositories\SystemConfig;
 use App\Console\Commends\Author;
 use App\Console\Commends\AuthorIllusts;
 use App\Console\Commends\IllustsImage;
+use App\Console\Commends\IllustSortRand;
 use App\Console\Commends\IllustsRelated;
 use App\Console\Commends\RankingDay;
 use Illuminate\Console\Scheduling\Schedule;
@@ -24,6 +25,7 @@ class Kernel extends ConsoleKernel
         'illusts-image'     => IllustsImage::class,
         'illusts-related'   => IllustsRelated::class,
         'ranking-day'       => RankingDay::class,
+        'illust-sort-rand'  => IllustSortRand::class,
     ];
 
 
@@ -46,6 +48,8 @@ class Kernel extends ConsoleKernel
             $schedule->command('illusts-related')->everyMinute();
             //作品排行
             $schedule->command('ranking-day')->dailyAt('08:00');
+            //插画随机排序
+            $schedule->command('illust-sort-rand')->dailyAt('03:00');
         }
 
     }

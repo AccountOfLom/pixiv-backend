@@ -30,12 +30,7 @@ class SiteController extends AdminController
         return Grid::make(new Site(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('name', '站点名');
-            $grid->column('sanity_level', 'P站净网等级')->display(function ($lv) {
-                return 'Lv:'.$lv;
-            });
-            $grid->column('x_restrict', 'P站R18')->switch();
-            $grid->column('anime_view', '动漫')->switch();
-            $grid->column('paint_view', '绘画')->switch();
+            $grid->column('x_restrict', 'R18')->switch();
             $grid->column('status', '启用')->switch();
             $grid->column('remarks', '备注');
             $grid->column('created_at');
@@ -60,7 +55,6 @@ class SiteController extends AdminController
         return Show::make($id, new Site(), function (Show $show) {
             $show->field('id');
             $show->field('name');
-            $show->field('sanity_level');
             $show->field('x_restrict');
             $show->field('status');
             $show->field('remarks');
@@ -79,10 +73,7 @@ class SiteController extends AdminController
         return Form::make(new Site(), function (Form $form) {
             $form->display('id');
             $form->text('name');
-            $form->number('sanity_level', 'P站净网等级');
-            $form->switch('x_restrict', 'P站R18');
-            $form->switch('anime_view', '动漫');
-            $form->switch('paint_view', '绘画');
+            $form->switch('x_restrict', 'R18');
             $form->switch('status', '启用');
             $form->text('remarks', '备注');
         
