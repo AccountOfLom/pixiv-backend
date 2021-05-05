@@ -95,6 +95,10 @@ class MemberController extends Controller
             return $this->error('密码错误');
         }
 
+        if ($member->state != 1) {
+            return $this->error('账号已冻结');
+        }
+
         return $this->success([
             'id' => $member->id,
             'account' => $member->email,
