@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\v1;
 
 
+use App\Admin\Repositories\SystemConfig;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Member;
@@ -60,7 +61,7 @@ class MemberController extends Controller
             'id' => $member->id,
             'account' => $member->email,
             'nikename' => $member->nikename,
-            'avatar' => $member->avatar,
+            'avatar' => SystemConfig::getS3ResourcesURL($member->avatar),
             'vip' => 0,
             'promotion_code' => $member->promotion_code,
             'token' => Token::create($member->id),
@@ -98,7 +99,7 @@ class MemberController extends Controller
             'id' => $member->id,
             'account' => $member->email,
             'nikename' => $member->nikename,
-            'avatar' => $member->avatar,
+            'avatar' => SystemConfig::getS3ResourcesURL($member->avatar),
             'vip' => $member->vip,
             'promotion_code' => $member->promotion_code,
             'token' => Token::create($member->id),
