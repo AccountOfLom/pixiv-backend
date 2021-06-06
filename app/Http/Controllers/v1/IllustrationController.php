@@ -14,6 +14,7 @@ use App\Cache\IllustCache;
 use App\Http\Controllers\Controller;
 use App\Models\Bookmark;
 use App\Models\IllustRanking;
+use App\Models\SearchHistory;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -123,6 +124,19 @@ class illustrationController extends Controller
 
         $tagID = $request->input('tag_id');
         if ($tagID) {
+            //记录标签热度
+            $memberID = 0;
+            if ($member) {
+                $memberID = $member['id'];
+            }
+            //未登录的每次都记录，已登录用户只记录一次
+            if ($memberID == 0 || !SearchHistory::where(['member_id' => $memberID, 'tag_id' => $tagID])->exists()) {
+                $tagSearchHistory = new SearchHistory();
+                $tagSearchHistory->member_id = $memberID;
+                $tagSearchHistory->tag_id = $tagID;
+                $tagSearchHistory->save();
+            }
+
             $model->whereRaw(DB::raw("FIND_IN_SET({$tagID}, i.tag_ids)"));
         }
 

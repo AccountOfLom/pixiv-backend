@@ -43,6 +43,11 @@ Route::middleware('site')->prefix('v1')->group(function () {
     Route::get('paints', 'v1\PaintController@list');
     //作者信息
     Route::get('author', 'v1\AuthorController@details');
+    //标签搜索
+    Route::get('search/tag', 'v1\searchController@tag');
+    //热门标签
+    Route::get('search/hot-tag', 'v1\searchController@hotTag');
+
 
     //需要登录
     Route::middleware('token')->group(function (Router $router) {
