@@ -35,7 +35,6 @@ class IllustCache
 
             if ($result['author_collected'] == 1) {
                 $result['author']['profile_image_url'] = SystemConfig::getS3ResourcesURL($result['author']['profile_image_url']);
-                $result['author']['background_image_url'] = SystemConfig::getS3ResourcesURL($result['author']['background_image_url']);
             }
 
             $result['images'] = SystemConfig::getS3ResourcesURL($result['images']);
