@@ -41,7 +41,8 @@ Route::middleware('site')->prefix('v1')->group(function () {
     Route::get('animes', 'v1\AnimeController@list');
     //精选列表
     Route::get('paints', 'v1\PaintController@list');
-
+    //作者信息
+    Route::get('author', 'v1\AuthorController@details');
 
     //需要登录
     Route::middleware('token')->group(function (Router $router) {
@@ -51,6 +52,10 @@ Route::middleware('site')->prefix('v1')->group(function () {
         Route::post('bookmark/add', 'v1\BookmarkController@add');
         //取消收藏
         Route::post('bookmark/del', 'v1\BookmarkController@del');
+        //关注
+        Route::post('author/follow', 'v1\AuthorController@follow');
+        //取消关注
+        Route::post('author/unfollow', 'v1\AuthorController@unFollow');
     });
 
 });

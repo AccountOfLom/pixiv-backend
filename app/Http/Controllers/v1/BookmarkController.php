@@ -10,6 +10,7 @@ use App\Cache\IllustCache;
 use App\Http\Controllers\Controller;
 use App\Models\Anime;
 use App\Models\Bookmark;
+use App\Models\Illustration;
 use App\Models\Paint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -129,11 +130,21 @@ class BookmarkController extends Controller
         }
 
         $bookmark = new Bookmark();
+        if ($bookmark->where(['member_id' => $memberID, 'type' => $request->input('type'), 'content_id' => $request->input('content_id')])->exists()) {
+            return $this->success();
+        }
         $bookmark->member_id = $memberID;
         $bookmark->type = $request->input('type');
         $bookmark->content_id = $request->input('content_id');
         $bookmark->created_at = now();
         $bookmark->save();
+
+        if ($request->input('type') == Bookmark::ILLUST) {
+            $illust = (new Illustration())->where('id', $request->input('content_id'))->first();
+            $illust->total_bookmarks += 1;
+            $illust->save();
+            IllustCache::update($illust->pixiv_id, 'total_bookmarks', $illust->total_bookmarks);
+        }
 
         $client->hset($cacheKey, $childKey, 1);
 
@@ -162,17 +173,28 @@ class BookmarkController extends Controller
         $cacheKey = Bookmark::CACHE_KEY . $memberID;
         $childKey = $request->input('type') . '_' . $request->input('content_id');
         $client = new Client();
-        $exist = $client->hexists($cacheKey, $childKey);
-        if (!$exist) {
+        if (!$client->hexists($cacheKey, $childKey)) {
             return $this->success();
         }
+
         $client->hdel($cacheKey, [$childKey]);
+
+        if (!Bookmark::where(['member_id' => $memberID, 'type' => $request->input('type'), 'content_id' => $request->input('content_id')])->exists()) {
+            return $this->success();
+        }
 
         Bookmark::where([
             'member_id' => $memberID,
             'content_id' => $request->input('content_id'),
             'type' => $request->input('type')])
             ->delete();
+
+        if ($request->input('type') == Bookmark::ILLUST) {
+            $illust = (new Illustration())->where('id', $request->input('content_id'))->first();
+            $illust->total_bookmarks -= 1;
+            $illust->save();
+            IllustCache::update($illust->pixiv_id, 'total_bookmarks', $illust->total_bookmarks);
+        }
 
         return $this->success();
     }

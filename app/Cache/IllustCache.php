@@ -15,17 +15,23 @@ class IllustCache
 {
     private static $cacheKey = 'illust_full_';
 
+    private static $expire = 3600;
+
     /**
      * @param $pixivID
+     * @param $update 更新缓存操作获取数据
      * @return array|mixed
      * @throws \Throwable
      */
-    public static function get($pixivID)
+    public static function get($pixivID, $update = false)
     {
         $cacheKey = self::$cacheKey . $pixivID;
         $r = (new Client());
         if ($r->exists($cacheKey)) {
             $result = json_decode($r->get($cacheKey), true);
+            if ($update) {
+                return $result;
+            }
 
             if ($result['author_collected'] == 1) {
                 $result['author']['profile_image_url'] = SystemConfig::getS3ResourcesURL($result['author']['profile_image_url']);
@@ -68,7 +74,6 @@ class IllustCache
             $result['author']['id'] = $author->id;
             $result['author']['name'] = $author->name;
             $result['author']['profile_image_url'] = $author->profile_image_url;
-            $result['author']['background_image_url'] = $author->background_image_url;
         }
 
         //标签
@@ -94,7 +99,11 @@ class IllustCache
             }
         }
 
-        $r->set($cacheKey, json_encode($result), 'ex', 3600);
+        if ($update) {
+            return $result;
+        }
+
+        $r->set($cacheKey, json_encode($result), 'ex', self::$expire);
 
         if ($result['author_collected'] == 1) {
             $result['author']['profile_image_url'] = SystemConfig::getS3ResourcesURL($result['author']['profile_image_url']);
@@ -134,5 +143,17 @@ class IllustCache
         }
         $r->set($cacheKey, $illust->pixiv_id, 'ex', 3600);
         return $illust->pixiv_id;
+    }
+
+    public static function update($pixivID, $key, $value)
+    {
+        $cacheData = self::get($pixivID, true);
+        $cacheData[$key] = $value;
+        $cacheKey = self::$cacheKey . $pixivID;
+        $r = (new Client());
+        if ($r->exists($cacheKey)) {
+            $r->del($cacheKey);
+        }
+        $r->set($cacheKey, json_encode($cacheData), 'ex', self::$expire);
     }
 }

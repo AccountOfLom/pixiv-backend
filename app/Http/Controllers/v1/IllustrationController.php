@@ -98,6 +98,9 @@ class illustrationController extends Controller
         if ($cacheData) {
             $cacheData = json_decode(json_encode($cacheData), true);
             foreach ($cacheData['body']['data'] as &$v) {
+                $illustCache = IllustCache::get($v['pixiv_id']);
+                $v['total_view'] = $illustCache['total_view'];
+                $v['total_bookmarks'] = $illustCache['total_bookmarks'];
                 $v['is_bookmark'] = 0;
                 if ($member) {
                     $isBookmark = Bookmark::validCache($member['id'], Bookmark::ILLUST, $v['id']);
