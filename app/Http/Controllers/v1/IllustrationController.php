@@ -118,14 +118,31 @@ class illustrationController extends Controller
             $model->where('i.x_restrict', '0');
         }
 
+        $tagID = $request->input('tag_id');
+        if ($tagID) {
+            $model->whereRaw(DB::raw("FIND_IN_SET({$tagID}, i.tag_ids)"));
+        }
+
+        $keyword = $request->input('keyword');
+        if ($keyword) {
+            $model->where('i.title', 'like', "%$keyword%");
+        }
+
+        $authorPixivID = $request->input('author_pixiv_id');  //获取作者作品列表需要传author_pixiv_id
+        if ($authorPixivID) {
+            $model->where('author_pixiv_id', $authorPixivID);
+        }
+
         $model->select([ 'i.id', 'i.pixiv_id'])->groupBy('i.id');
 
-        if ($request->get('is_login')) {
-            //已登录随机排序
-            $model->orderBy('sort_rand');
-        } else {
-            //未登录按收藏排序
-            $model->orderBy('total_bookmarks', 'desc');
+        if (!$authorPixivID) {
+            if ($request->get('is_login')) {
+                //已登录随机排序
+                $model->orderBy('sort_rand');
+            } else {
+                //未登录按收藏排序
+                $model->orderBy('total_bookmarks', 'desc');
+            }
         }
 
         $data = $model->orderBy('i.id', 'desc')->paginate();
