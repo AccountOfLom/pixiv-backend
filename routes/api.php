@@ -61,6 +61,8 @@ Route::middleware('site')->prefix('v1')->group(function () {
         Route::post('author/follow', 'v1\AuthorController@follow');
         //取消关注
         Route::post('author/unfollow', 'v1\AuthorController@unFollow');
+        //关注列表
+        Route::get('author/follow', 'v1\AuthorController@followList');
     });
 
 });
